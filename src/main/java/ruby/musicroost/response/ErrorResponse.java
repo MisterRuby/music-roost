@@ -1,7 +1,7 @@
 package ruby.musicroost.response;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.validation.FieldError;
 
@@ -17,15 +17,22 @@ import java.util.Map;
  *     }
  * }
  */
-@RequiredArgsConstructor
 @Getter @Setter
 public class ErrorResponse {
 
     private final int code;
     private final String message;
-    private final Map<String, String> validation = new HashMap<>();
+    private Map<String, String> validation;
+
+    @Builder
+    public ErrorResponse(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
     public void addValidation(FieldError fieldError) {
+        if (validation == null) this.validation = new HashMap<>();
+
         this.validation.put(fieldError.getField(), fieldError.getDefaultMessage());
     }
 }
