@@ -1,5 +1,6 @@
 package ruby.musicroost.valid;
 
+import ruby.musicroost.exception.student.IllegalCourseException;
 import ruby.musicroost.valid.validator.CourseValidator;
 
 import javax.validation.Constraint;
@@ -17,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface CoursePattern {
 
-    String message() default "수강 과목이 올바르지 않습니다.";
+    String message() default IllegalCourseException.MESSAGE;;
 
     Class<?>[] groups() default { };
 

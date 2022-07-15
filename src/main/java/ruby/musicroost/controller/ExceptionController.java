@@ -3,7 +3,6 @@ package ruby.musicroost.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,7 +12,7 @@ import ruby.musicroost.response.ErrorResponse;
 @RestControllerAdvice
 public class ExceptionController {
 
-    private final String BAD_REQUEST_MESSAGE = "잘못된 요청입니다.";
+    public static final String BAD_REQUEST_MESSAGE = "잘못된 요청입니다.";
 
     /**
      * 검증 값 에러 처리

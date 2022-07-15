@@ -2,7 +2,6 @@ package ruby.musicroost.domain.editor;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.enums.Course;
 

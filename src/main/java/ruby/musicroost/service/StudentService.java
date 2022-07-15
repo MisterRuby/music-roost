@@ -1,7 +1,6 @@
 package ruby.musicroost.service;
 
 import ruby.musicroost.domain.Student;
-import ruby.musicroost.domain.enums.Course;
 import ruby.musicroost.request.StudentEdit;
 import ruby.musicroost.request.StudentSearch;
 
@@ -44,4 +43,10 @@ public interface StudentService {
      * @param studentEdit
      */
     void edit(Long studentId, StudentEdit studentEdit);
+
+    /**
+     * 수강생 정보 삭제
+     * @param studentId
+     */
+    void delete(Long studentId);
 }

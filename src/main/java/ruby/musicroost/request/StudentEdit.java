@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ruby.musicroost.exception.common.IllegalEmailException;
 import ruby.musicroost.valid.CoursePattern;
 import ruby.musicroost.valid.PhonePattern;
 
@@ -15,7 +16,7 @@ public class StudentEdit {
 
     @PhonePattern
     private String phoneNumber;
-    @Email(message = "이메일 입력 형식이 올바르지 않습니다.")
+    @Email(message = IllegalEmailException.MESSAGE)
     private String email;
     @CoursePattern
     private String course;

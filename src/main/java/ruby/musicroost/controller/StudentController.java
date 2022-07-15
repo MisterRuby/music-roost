@@ -67,4 +67,13 @@ public class StudentController {
         studentService.edit(studentId, studentEdit);
         // 업무에 따라 수정된 정보를 응답으로 보내줄지는 클라이언트 담당 쪽과 협의하여 처리
     }
+
+    /**
+     * 수강생 정보 삭제
+     * @param studentId
+     */
+    @DeleteMapping("/{studentId}")
+    public void delete(@PathVariable Long studentId) {
+        studentService.delete(studentId);
+    }
 }

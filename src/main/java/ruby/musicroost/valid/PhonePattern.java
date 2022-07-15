@@ -1,5 +1,6 @@
 package ruby.musicroost.valid;
 
+import ruby.musicroost.exception.common.IllegalPhoneException;
 import ruby.musicroost.valid.validator.PhoneValidator;
 
 import javax.validation.Constraint;
@@ -17,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface PhonePattern {
 
-    String message() default "핸드폰 번호 입력 형식이 올바르지 않습니다.";
+    String message() default IllegalPhoneException.MESSAGE;
 
     Class<?>[] groups() default { };
 

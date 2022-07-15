@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 import static javax.persistence.FetchType.LAZY;
-import static ruby.musicroost.domain.editor.StudentEditor.*;
+import static ruby.musicroost.domain.editor.StudentEditor.StudentEditorBuilder;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

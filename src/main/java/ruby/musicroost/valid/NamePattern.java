@@ -1,5 +1,6 @@
 package ruby.musicroost.valid;
 
+import ruby.musicroost.exception.common.IllegalNameException;
 import ruby.musicroost.valid.validator.NameValidator;
 
 import javax.validation.Constraint;
@@ -17,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface NamePattern {
 
-    String message() default "이름은 2~20자 한글, 영문 대소문자만 입력할 수 있습니다.";
+    String message() default IllegalNameException.MESSAGE;
 
     Class<?>[] groups() default { };
 

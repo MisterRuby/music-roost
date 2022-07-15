@@ -10,6 +10,8 @@ import ruby.musicroost.domain.Student;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.editor.StudentEditor;
 import ruby.musicroost.domain.enums.Course;
+import ruby.musicroost.exception.TeacherNotFoundException;
+import ruby.musicroost.exception.student.StudentNotFoundException;
 import ruby.musicroost.repository.StudentRepository;
 import ruby.musicroost.repository.TeacherRepository;
 import ruby.musicroost.request.StudentEdit;
@@ -47,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
     @Transactional(readOnly = true)
     public Student inquireDetail(Long studentId) {
         return studentRepository.findDetailById(studentId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 수강생의 정보를 찾을 수 없습니다."));
+                .orElseThrow(StudentNotFoundException::new);
     }
 
     /**
@@ -71,10 +73,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void edit(Long studentId, StudentEdit studentEdit) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 수강생의 정보를 찾을 수 없습니다."));
+                .orElseThrow(StudentNotFoundException::new);
 
         Teacher teacher = teacherRepository.findById(studentEdit.getTeacherId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 선생님의 정보를 찾을 수 없습니다."));
+                .orElseThrow(TeacherNotFoundException::new);
 
         StudentEditor studentEditor = student.toEditor()
                 .phoneNumber(studentEdit.getPhoneNumber())
@@ -84,5 +86,17 @@ public class StudentServiceImpl implements StudentService {
                 .build();
 
         student.edit(studentEditor);
+    }
+
+    /**
+     * 수강생 정보 삭제
+     * @param studentId
+     */
+    @Override
+    public void delete(Long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(StudentNotFoundException::new);
+
+        studentRepository.delete(student);
     }
 }

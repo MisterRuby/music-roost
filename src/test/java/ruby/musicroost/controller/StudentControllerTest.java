@@ -11,6 +11,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import ruby.musicroost.domain.Student;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.enums.Course;
+import ruby.musicroost.exception.TeacherNotFoundException;
+import ruby.musicroost.exception.common.IllegalEmailException;
+import ruby.musicroost.exception.common.IllegalNameException;
+import ruby.musicroost.exception.common.IllegalPhoneException;
+import ruby.musicroost.exception.student.IllegalCourseException;
+import ruby.musicroost.exception.student.StudentNotFoundException;
 import ruby.musicroost.repository.StudentRepository;
 import ruby.musicroost.repository.TeacherRepository;
 import ruby.musicroost.request.StudentEdit;
@@ -23,7 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -57,7 +63,7 @@ class StudentControllerTest {
                 .name("     ")
                 .email("rubykim0723@gmail.com")
                 .phoneNumber("010-1111-2222")
-                .course("FLUTE")
+                .course(Course.FLUTE.name())
                 .build();
 
         mockMvc.perform(post("/students")
@@ -66,8 +72,8 @@ class StudentControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-                .andExpect(jsonPath("$.validation.name").value("이름은 2~20자 한글, 영문 대소문자만 입력할 수 있습니다."))
+                .andExpect(jsonPath("$.message").value(ExceptionController.BAD_REQUEST_MESSAGE))
+                .andExpect(jsonPath("$.validation.name").value(IllegalNameException.MESSAGE))
                 .andDo(print());
     }
 
@@ -78,7 +84,7 @@ class StudentControllerTest {
                 .name("ruby")
                 .email("rubykim0723gmail")
                 .phoneNumber("010-1111-2222")
-                .course("FLUTE")
+                .course(Course.FLUTE.name())
                 .build();
 
         mockMvc.perform(post("/students")
@@ -87,8 +93,8 @@ class StudentControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-                .andExpect(jsonPath("$.validation.email").value("이메일 입력 형식이 올바르지 않습니다."))
+                .andExpect(jsonPath("$.message").value(ExceptionController.BAD_REQUEST_MESSAGE))
+                .andExpect(jsonPath("$.validation.email").value(IllegalEmailException.MESSAGE))
                 .andDo(print());
     }
 
@@ -99,7 +105,7 @@ class StudentControllerTest {
                 .name("ruby")
                 .email("rubykim0723@gmail.com")
                 .phoneNumber("010-11-2222")
-                .course("FLUTE")
+                .course(Course.FLUTE.name())
                 .build();
 
         mockMvc.perform(post("/students")
@@ -108,8 +114,8 @@ class StudentControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-                .andExpect(jsonPath("$.validation.phoneNumber").value("핸드폰 번호 입력 형식이 올바르지 않습니다."))
+                .andExpect(jsonPath("$.message").value(ExceptionController.BAD_REQUEST_MESSAGE))
+                .andExpect(jsonPath("$.validation.phoneNumber").value(IllegalPhoneException.MESSAGE))
                 .andDo(print());
     }
 
@@ -129,8 +135,8 @@ class StudentControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-                .andExpect(jsonPath("$.validation.course").value("수강 과목이 올바르지 않습니다."))
+                .andExpect(jsonPath("$.message").value(ExceptionController.BAD_REQUEST_MESSAGE))
+                .andExpect(jsonPath("$.validation.course").value(IllegalCourseException.MESSAGE))
                 .andDo(print());
     }
 
@@ -175,7 +181,7 @@ class StudentControllerTest {
                 .build();
         studentRepository.save(student);
 
-        mockMvc.perform(get("/students/{studentId}", 24938L)
+        mockMvc.perform(get("/students/{studentId}", student.getId() + 1)
                         .contentType(APPLICATION_JSON)
                 )
                 .andExpect(status().isBadRequest())
@@ -284,8 +290,8 @@ class StudentControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-                .andExpect(jsonPath("$.validation.course").value("수강 과목이 올바르지 않습니다."))
+                .andExpect(jsonPath("$.message").value(ExceptionController.BAD_REQUEST_MESSAGE))
+                .andExpect(jsonPath("$.validation.course").value(IllegalCourseException.MESSAGE))
                 .andDo(print());
     }
 
@@ -383,22 +389,22 @@ class StudentControllerTest {
     @DisplayName("수강생 정보가 없는 id로 수정")
     void editStudentByWrongId() throws Exception {
         Teacher teacher = getTeacher();
-        getStudent();
+        Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
                 .phoneNumber("010-2222-3333")
                 .email("rubykim0724@gmail.com")
-                .course("VIOLIN")
+                .course(Course.VIOLIN.name())
                 .teacherId(teacher.getId())
                 .build();
 
-        mockMvc.perform(patch("/students/{studentId}", 432)
+        mockMvc.perform(patch("/students/{studentId}", student.getId() + 1)
                         .contentType(APPLICATION_JSON)
                         .content(mapper.writeValueAsString(studentEdit))
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("해당 수강생의 정보를 찾을 수 없습니다."))
+                .andExpect(jsonPath("$.message").value(StudentNotFoundException.MESSAGE))
                 .andDo(print());
     }
 
@@ -411,7 +417,7 @@ class StudentControllerTest {
         StudentEdit studentEdit = StudentEdit.builder()
                 .phoneNumber("010-2222-3333")
                 .email("rubykim0724@gmail.com")
-                .course("VIOLIN")
+                .course(Course.VIOLIN.name())
                 .teacherId(123L)
                 .build();
 
@@ -421,7 +427,7 @@ class StudentControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("해당 선생님의 정보를 찾을 수 없습니다."))
+                .andExpect(jsonPath("$.message").value(TeacherNotFoundException.MESSAGE))
                 .andDo(print());
     }
 
@@ -434,7 +440,7 @@ class StudentControllerTest {
         StudentEdit studentEdit = StudentEdit.builder()
                 .phoneNumber("421-222-3333")
                 .email("rubykim0724@gmail.com")
-                .course("VIOLIN")
+                .course(Course.VIOLIN.name())
                 .teacherId(teacher.getId())
                 .build();
 
@@ -444,8 +450,8 @@ class StudentControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-                .andExpect(jsonPath("$.validation.phoneNumber").value("핸드폰 번호 입력 형식이 올바르지 않습니다."))
+                .andExpect(jsonPath("$.message").value(ExceptionController.BAD_REQUEST_MESSAGE))
+                .andExpect(jsonPath("$.validation.phoneNumber").value(IllegalPhoneException.MESSAGE))
                 .andDo(print());
     }
 
@@ -458,7 +464,7 @@ class StudentControllerTest {
         StudentEdit studentEdit = StudentEdit.builder()
                 .phoneNumber("010-222-3333")
                 .email("rubykim0724gmail.com")
-                .course("VIOLIN")
+                .course(Course.VIOLIN.name())
                 .teacherId(teacher.getId())
                 .build();
 
@@ -468,8 +474,8 @@ class StudentControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-                .andExpect(jsonPath("$.validation.email").value("이메일 입력 형식이 올바르지 않습니다."))
+                .andExpect(jsonPath("$.message").value(ExceptionController.BAD_REQUEST_MESSAGE))
+                .andExpect(jsonPath("$.validation.email").value(IllegalEmailException.MESSAGE))
                 .andDo(print());
     }
 
@@ -492,8 +498,8 @@ class StudentControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(400))
-                .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
-                .andExpect(jsonPath("$.validation.course").value("수강 과목이 올바르지 않습니다."))
+                .andExpect(jsonPath("$.message").value(ExceptionController.BAD_REQUEST_MESSAGE))
+                .andExpect(jsonPath("$.validation.course").value(IllegalCourseException.MESSAGE))
                 .andDo(print());
     }
 
@@ -506,7 +512,7 @@ class StudentControllerTest {
         StudentEdit studentEdit = StudentEdit.builder()
                         .phoneNumber("010-2222-3333")
                         .email("rubykim0724@gmail.com")
-                        .course("VIOLIN")
+                        .course(Course.VIOLIN.name())
                         .teacherId(teacher.getId())
                         .build();
 
@@ -529,4 +535,31 @@ class StudentControllerTest {
     }
 
     /** 수정 테스트 end */
+
+    /** 삭제 테스트 start */
+    @Test
+    @DisplayName("존재하지 않는 수강생 정보 삭제")
+    void deleteStudentByWrongId() throws Exception {
+        Student student = getStudent();
+
+        mockMvc.perform(delete("/students/{studentId}", student.getId() + 1))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.message").value(StudentNotFoundException.MESSAGE))
+                .andDo(print());
+
+        assertThat(studentRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("수강생 정보 삭제")
+    void deleteStudent() throws Exception {
+        Student student = getStudent();
+
+        mockMvc.perform(delete("/students/{studentId}", student.getId()))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        assertThat(studentRepository.count()).isEqualTo(0);
+    }
 }
