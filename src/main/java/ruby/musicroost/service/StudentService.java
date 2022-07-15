@@ -1,8 +1,9 @@
 package ruby.musicroost.service;
 
-import org.springframework.data.domain.Pageable;
 import ruby.musicroost.domain.Student;
 import ruby.musicroost.domain.enums.Course;
+import ruby.musicroost.request.StudentEdit;
+import ruby.musicroost.request.StudentSearch;
 
 import java.util.List;
 
@@ -32,10 +33,15 @@ public interface StudentService {
 
     /**
      * 수강생 목록 조회
-     * @param course
-     * @param name
-     * @param pageable
+     * @param search
      * @return
      */
-    List<Student> getList(Course course, String name, Pageable pageable);
+    List<Student> getList(StudentSearch search);
+
+    /**
+     * 수강생 정보 수정
+     * @param studentId
+     * @param studentEdit
+     */
+    void edit(Long studentId, StudentEdit studentEdit);
 }

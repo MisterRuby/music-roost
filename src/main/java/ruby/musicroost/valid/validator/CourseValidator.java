@@ -1,6 +1,6 @@
-package ruby.musicroost.infra.valid.validator;
+package ruby.musicroost.valid.validator;
 
-import ruby.musicroost.infra.valid.CoursePattern;
+import ruby.musicroost.valid.CoursePattern;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

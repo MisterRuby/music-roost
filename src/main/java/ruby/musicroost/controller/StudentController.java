@@ -3,14 +3,10 @@ package ruby.musicroost.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ruby.musicroost.domain.Student;
-import ruby.musicroost.domain.enums.Course;
-import ruby.musicroost.infra.valid.NamePattern;
-import ruby.musicroost.infra.valid.CoursePattern;
+import ruby.musicroost.request.StudentEdit;
+import ruby.musicroost.request.StudentSearch;
 import ruby.musicroost.request.StudentSignUp;
 import ruby.musicroost.response.student.StudentResponse;
 import ruby.musicroost.service.StudentService;
@@ -19,13 +15,10 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.data.domain.Sort.Direction.DESC;
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/students")
-@Validated
 public class StudentController {
 
     private final StudentService studentService;
@@ -37,25 +30,19 @@ public class StudentController {
      */
     @PostMapping
     public void post(@RequestBody @Valid StudentSignUp studentSignUp) {
-        // mapper 를 통해 String -> enum 으로 변환 가
         Student student = mapper.map(studentSignUp, Student.class);
         studentService.signUp(student);
     }
 
     /**
      * 수강생 목록 조회
-     * @param course
-     * @param name
-     * @param pageable
+     * @param search
      * @return
      */
     @GetMapping
-    public List<StudentResponse> getList(
-            @CoursePattern String course,
-            @NamePattern String name,
-            @PageableDefault(sort = "id",  direction = DESC) Pageable pageable) {
-        List<Student> students = studentService.getList(Course.valueOf(course), name, pageable);
-        return students.stream().map(student -> mapper.map(student, StudentResponse.class))
+    public List<StudentResponse> getList(@Valid StudentSearch search) {
+        List<Student> students = studentService.getList(search);
+        return students.stream().map(StudentResponse::new)
                 .collect(Collectors.toList());
     }
 
@@ -67,6 +54,17 @@ public class StudentController {
     @GetMapping("/{studentId}")
     public StudentResponse get(@PathVariable Long studentId) {
         Student student = studentService.inquireDetail(studentId);
-        return mapper.map(student, StudentResponse.class);
+        return new StudentResponse(student);
+    }
+
+    /**
+     * 수강생 정보 수정
+     * @param studentId
+     * @param studentEdit
+     */
+    @PatchMapping("/{studentId}")
+    public void edit(@PathVariable Long studentId, @RequestBody @Valid StudentEdit studentEdit) {
+        studentService.edit(studentId, studentEdit);
+        // 업무에 따라 수정된 정보를 응답으로 보내줄지는 클라이언트 담당 쪽과 협의하여 처리
     }
 }

@@ -1,6 +1,6 @@
-package ruby.musicroost.infra.valid.validator;
+package ruby.musicroost.valid.validator;
 
-import ruby.musicroost.infra.valid.NamePattern;
+import ruby.musicroost.valid.NamePattern;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -9,9 +9,11 @@ import java.util.regex.Pattern;
 
 public class NameValidator implements ConstraintValidator<NamePattern, String> {
 
+    private static final String NAME_REGEXP = "^[가-힣a-zA-Z]*$";
+
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        Pattern pattern = Pattern.compile("^[가-힣a-zA-Z]{2,20}$");
+        Pattern pattern = Pattern.compile(NAME_REGEXP);
         Matcher matcher = pattern.matcher(value);
         return matcher.matches();
     }

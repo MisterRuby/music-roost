@@ -1,6 +1,6 @@
-package ruby.musicroost.infra.valid;
+package ruby.musicroost.valid;
 
-import ruby.musicroost.infra.valid.validator.PhoneValidator;
+import ruby.musicroost.valid.validator.PhoneValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

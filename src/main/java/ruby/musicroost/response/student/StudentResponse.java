@@ -2,6 +2,7 @@ package ruby.musicroost.response.student;
 
 import lombok.Getter;
 import lombok.Setter;
+import ruby.musicroost.domain.Student;
 
 import java.time.LocalDate;
 
@@ -14,6 +15,19 @@ public class StudentResponse {
     private String phoneNumber;
     private String course;
     private LocalDate since;
+    private Long teacherId;
+    private String teacherName;
 
-    // TODO - 담당 선생닝 정보(ID, 이름)도 같이 필요함
+    public StudentResponse(Student student) {
+        this.id = student.getId();
+        this.name = student.getName();
+        this.email = student.getEmail();
+        this.phoneNumber = student.getPhoneNumber();
+        this.course = student.getCourse().name();
+        this.since = student.getSince();
+        if (student.getTeacher() != null) {
+            this.teacherId = student.getTeacher().getId();
+            this.teacherName = student.getTeacher().getName();
+        }
+    }
 }

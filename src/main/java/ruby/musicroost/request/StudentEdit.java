@@ -5,29 +5,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ruby.musicroost.valid.CoursePattern;
-import ruby.musicroost.valid.NamePattern;
 import ruby.musicroost.valid.PhonePattern;
 
 import javax.validation.constraints.Email;
 
 @Getter @Setter
 @NoArgsConstructor
-public class StudentSignUp {
+public class StudentEdit {
 
-    @NamePattern
-    private String name;
-    @Email(message = "이메일 입력 형식이 올바르지 않습니다.")
-    private String email;
     @PhonePattern
     private String phoneNumber;
+    @Email(message = "이메일 입력 형식이 올바르지 않습니다.")
+    private String email;
     @CoursePattern
     private String course;
+    private Long teacherId;
 
     @Builder
-    public StudentSignUp(String name, String email, String phoneNumber, String course) {
-        this.name = name;
-        this.email = email;
+    public StudentEdit(String phoneNumber, String email, String course, Long teacherId) {
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.course = course;
+        this.teacherId = teacherId;
     }
 }

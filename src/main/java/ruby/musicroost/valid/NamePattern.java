@@ -1,6 +1,6 @@
-package ruby.musicroost.infra.valid;
+package ruby.musicroost.valid;
 
-import ruby.musicroost.infra.valid.validator.CourseValidator;
+import ruby.musicroost.valid.validator.NameValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,16 +9,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({FIELD, PARAMETER})
+@Target(FIELD)
 @Retention(RUNTIME)
-@Constraint(validatedBy = CourseValidator.class)
+@Constraint(validatedBy = NameValidator.class)
 @Documented
-public @interface CoursePattern {
+public @interface NamePattern {
 
-    String message() default "수강 과목이 올바르지 않습니다.";
+    String message() default "이름은 2~20자 한글, 영문 대소문자만 입력할 수 있습니다.";
 
     Class<?>[] groups() default { };
 
