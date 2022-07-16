@@ -232,9 +232,7 @@ class StudentControllerTest {
                 .build();
         studentRepository.save(student);
 
-        mockMvc.perform(get("/students/{studentId}", student.getId() + 1)
-                        .contentType(APPLICATION_JSON)
-                )
+        mockMvc.perform(get("/students/{studentId}", student.getId() + 1))
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
@@ -248,13 +246,10 @@ class StudentControllerTest {
                 .phoneNumber("010-1111-2222")
                 .course(Course.FLUTE)
                 .grade(Grade.BEGINNER)
-                .since(LocalDate.now())
                 .build();
         studentRepository.save(student);
 
-        mockMvc.perform(get("/students/{studentId}", student.getId())
-                        .contentType(APPLICATION_JSON)
-                )
+        mockMvc.perform(get("/students/{studentId}", student.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(student.getId()))
                 .andExpect(jsonPath("$.name").value(student.getName()))
@@ -292,7 +287,6 @@ class StudentControllerTest {
                             .phoneNumber("010-11" + idx + "-2222")
                             .course(idx < 15 ? Course.FLUTE : Course.VIOLIN)
                             .grade(idx < 15 ? Grade.BEGINNER : Grade.ADVANCED)
-                            .since(LocalDate.now())
                             .build();
                     student.assignTeacher(teachers.get(idx % 2));
                     return student;
@@ -461,7 +455,6 @@ class StudentControllerTest {
                 .email("rubykim0723@gmail.com")
                 .phoneNumber("010-1111-2222")
                 .course(Course.FLUTE)
-                .since(LocalDate.now())
                 .build();
         return studentRepository.save(student);
     }

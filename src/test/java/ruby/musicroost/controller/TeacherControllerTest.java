@@ -21,11 +21,17 @@ import ruby.musicroost.valid.EmailPattern;
 import ruby.musicroost.valid.NamePattern;
 import ruby.musicroost.valid.PhonePattern;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -198,4 +204,139 @@ class TeacherControllerTest {
     }
 
     /** 등록 테스트 end */
+
+
+    /** 상세조회 start */
+    @Test
+    @DisplayName("존재하지 않는 선생님 정보 조회")
+    void getTeacherByWrongId() throws Exception {
+        Teacher teacher = Teacher.builder()
+                .name("teacher")
+                .email("rubykim0723@gmail.com")
+                .phoneNumber("010-1111-2222")
+                .course(Course.VIOLA)
+                .build();
+        teacherRepository.save(teacher);
+
+        mockMvc.perform(get("/teachers/{teacherId}", teacher.getId() + 1))
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 정보 조회")
+    void getTeacher() throws Exception {
+        Teacher teacher = Teacher.builder()
+                .name("teacher")
+                .email("rubykim0723@gmail.com")
+                .phoneNumber("010-1111-2222")
+                .course(Course.VIOLA)
+                .build();
+        teacherRepository.save(teacher);
+
+        mockMvc.perform(get("/teachers/{teacherId}", teacher.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(teacher.getId()))
+                .andExpect(jsonPath("$.name").value(teacher.getName()))
+                .andExpect(jsonPath("$.email").value(teacher.getEmail()))
+                .andExpect(jsonPath("$.phoneNumber").value(teacher.getPhoneNumber()))
+                .andExpect(jsonPath("$.course").value(teacher.getCourse().name()))
+                .andExpect(jsonPath("$.since").value(teacher.getSince().format(DateTimeFormatter.ISO_LOCAL_DATE)))
+                .andDo(print());
+    }
+    /** 상세조회 end */
+
+    /** 목록조회 start */
+    private List<Teacher> getTeachers() {
+        List<Teacher> teachers = IntStream.range(0, 30)
+                .mapToObj(idx -> Teacher.builder()
+                        .name("teacher" + idx)
+                        .email(idx + "teacher@gmail.com")
+                        .phoneNumber("010-11" + idx + "-2222")
+                        .course(idx < 15 ? Course.FLUTE : Course.VIOLIN)
+                        .build())
+                .collect(Collectors.toList());
+
+        return teacherRepository.saveAll(teachers);
+    }
+
+    @Test
+    @DisplayName("선생님 목록 잘못된 과목으로 조회")
+    void getListByWrongCourse() throws Exception {
+        getTeachers();
+
+        mockMvc.perform(get("/teachers")
+                        .param("course", "asd!@#")
+                        .param("name", "teacher")
+                        .param("page", "1")
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
+                .andExpect(jsonPath("$.validation.course").value(CoursePattern.MESSAGE))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 목록 잘못된 이름으로 조회")
+    void getListByWrongName() throws Exception {
+        getTeachers();
+
+        mockMvc.perform(get("/teachers")
+                        .param("course", Course.FLUTE.name())
+                        .param("name", "!@#")
+                        .param("page", "1")
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
+                .andExpect(jsonPath("$.validation.name").value(NamePattern.MESSAGE))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 목록 존재하지 않는 이름으로 조회")
+    void getListByNoneName() throws Exception {
+        getTeachers();
+
+        mockMvc.perform(get("/teachers")
+                        .param("course", Course.FLUTE.name())
+                        .param("name", "ruby")
+                        .param("page", "1")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", is(0)))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 목록 존재하지 않는 페이지 조회")
+    void getListByNonePage() throws Exception {
+        getTeachers();
+
+        mockMvc.perform(get("/teachers")
+                        .param("course", Course.FLUTE.name())
+                        .param("name", "teacher")
+                        .param("page", "3")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", is(0)))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 목록 조회")
+    void getList() throws Exception {
+        getTeachers();
+
+        mockMvc.perform(get("/teachers")
+                        .param("course", Course.FLUTE.name())
+                        .param("name", "teacher")
+                        .param("page", "2")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", is(5)))
+                .andDo(print());
+    }
+    /** 목록조회 end */
 }

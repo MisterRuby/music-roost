@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ruby.musicroost.domain.enums.Course;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(value = AuditingEntityListener.class)
 @Getter
 public class Teacher {
 
@@ -27,11 +29,10 @@ public class Teacher {
     private LocalDate since;
 
     @Builder
-    public Teacher(String name, String email, String phoneNumber, Course course, LocalDate since) {
+    public Teacher(String name, String email, String phoneNumber, Course course) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.course = course;
-        this.since = since;
     }
 }

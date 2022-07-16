@@ -28,7 +28,7 @@ public interface StudentService {
      * @param studentId
      * @return
      */
-    Student inquireDetail(Long studentId);
+    Student getDetail(Long studentId);
 
     /**
      * 수강생 목록 조회

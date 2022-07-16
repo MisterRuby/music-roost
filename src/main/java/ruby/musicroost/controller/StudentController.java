@@ -53,7 +53,7 @@ public class StudentController {
      */
     @GetMapping("/{studentId}")
     public StudentResponse get(@PathVariable Long studentId) {
-        Student student = studentService.inquireDetail(studentId);
+        Student student = studentService.getDetail(studentId);
         return new StudentResponse(student);
     }
 

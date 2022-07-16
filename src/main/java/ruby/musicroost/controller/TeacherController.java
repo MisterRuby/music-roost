@@ -12,6 +12,7 @@ import ruby.musicroost.service.TeacherService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +41,9 @@ public class TeacherController {
     @GetMapping
     public List<TeacherResponse> getList(@Valid TeacherSearch search) {
         List<Teacher> teachers = teacherService.getList(search);
-        return null;
+        return teachers.stream()
+                .map(TeacherResponse::new)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -50,6 +53,7 @@ public class TeacherController {
      */
     @GetMapping("/{teacherId}")
     public TeacherResponse get(@PathVariable Long teacherId) {
-        return null;
+        Teacher teacher = teacherService.getDetail(teacherId);
+        return new TeacherResponse(teacher);
     }
 }

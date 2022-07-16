@@ -18,4 +18,10 @@ public interface TeacherService {
      * @param search
      */
     List<Teacher> getList(TeacherSearch search);
+
+    /**
+     * 선생님 정보 상세조회
+     * @param teacherId
+     */
+    Teacher getDetail(Long teacherId);
 }

@@ -23,7 +23,6 @@ import java.util.List;
 
 import static java.lang.Math.max;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -48,7 +47,7 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Student inquireDetail(Long studentId) {
+    public Student getDetail(Long studentId) {
         return studentRepository.findDetailById(studentId)
                 .orElseThrow(StudentNotFoundException::new);
     }

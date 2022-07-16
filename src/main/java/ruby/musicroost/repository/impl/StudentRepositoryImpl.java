@@ -34,7 +34,7 @@ public class StudentRepositoryImpl implements StudentRepositoryCustom {
     }
 
     /**
-     * 수강생 목록 조회
+     * 수강생 목록 조회 - TODO : 페이징 처리를 위해 전체 페이지 개수를 계산해서 클라이언트에게 전달해줘야함
      * @param course
      * @param grade
      * @param name

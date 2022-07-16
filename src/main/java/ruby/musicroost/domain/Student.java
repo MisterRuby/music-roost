@@ -2,6 +2,7 @@ package ruby.musicroost.domain;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ruby.musicroost.domain.editor.StudentEditor;
 import ruby.musicroost.domain.enums.Course;
 import ruby.musicroost.domain.enums.Grade;
@@ -14,6 +15,7 @@ import static ruby.musicroost.domain.editor.StudentEditor.StudentEditorBuilder;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(value = AuditingEntityListener.class)
 @Getter @Setter
 public class Student {
 
@@ -33,13 +35,12 @@ public class Student {
     private Teacher teacher;
 
     @Builder
-    public Student(String name, String email, String phoneNumber, Course course, Grade grade, LocalDate since) {
+    public Student(String name, String email, String phoneNumber, Course course, Grade grade) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.course = course;
         this.grade = grade;
-        this.since = since;
     }
 
     /** 비즈니스 메서드 start */
