@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 import static javax.persistence.FetchType.LAZY;
-import static ruby.musicroost.domain.editor.StudentEditor.StudentEditorBuilder;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -58,6 +57,7 @@ public class Student {
      * @param editor
      */
     public void edit(StudentEditor editor) {
+        this.name = editor.getName();
         this.phoneNumber = editor.getPhoneNumber();
         this.email = editor.getEmail();
         this.course = editor.getCourse();
@@ -69,8 +69,9 @@ public class Student {
 
     /** 유틸리티 메서드 start */
 
-    public StudentEditorBuilder toEditor() {
+    public StudentEditor.StudentEditorBuilder toEditor() {
         return StudentEditor.builder()
+                .name(this.name)
                 .phoneNumber(this.phoneNumber)
                 .email(this.email)
                 .course(this.course)

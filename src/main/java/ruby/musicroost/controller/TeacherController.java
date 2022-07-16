@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 import ruby.musicroost.domain.Teacher;
+import ruby.musicroost.request.teacher.TeacherEdit;
 import ruby.musicroost.request.teacher.TeacherSearch;
 import ruby.musicroost.request.teacher.TeacherRegister;
 import ruby.musicroost.response.teacher.TeacherResponse;
@@ -55,5 +56,24 @@ public class TeacherController {
     public TeacherResponse get(@PathVariable Long teacherId) {
         Teacher teacher = teacherService.getDetail(teacherId);
         return new TeacherResponse(teacher);
+    }
+
+    /**
+     * 선생님 정보 수정
+     * @param teacherId
+     * @param teacherEdit
+     */
+    @PatchMapping("/{teacherId}")
+    public void edit(@PathVariable Long teacherId, @RequestBody @Valid TeacherEdit teacherEdit) {
+        teacherService.edit(teacherId, teacherEdit);
+    }
+
+    /**
+     * 선생님 정보 삭제
+     * @param teacherId
+     */
+    @DeleteMapping("/{teacherId}")
+    public void delete(@PathVariable Long teacherId) {
+        teacherService.delete(teacherId);
     }
 }

@@ -466,6 +466,7 @@ class StudentControllerTest {
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
+                .name("ruby")
                 .phoneNumber("010-2222-3333")
                 .email("rubykim0724@gmail.com")
                 .course(Course.VIOLIN.name())
@@ -490,6 +491,7 @@ class StudentControllerTest {
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
+                .name("ruby")
                 .phoneNumber("010-2222-3333")
                 .email("rubykim0724@gmail.com")
                 .course(Course.VIOLIN.name())
@@ -514,6 +516,7 @@ class StudentControllerTest {
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
+                .name("ruby")
                 .phoneNumber("421-222-3333")
                 .email("rubykim0724@gmail.com")
                 .course(Course.VIOLIN.name())
@@ -539,6 +542,7 @@ class StudentControllerTest {
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
+                .name("ruby")
                 .phoneNumber("010-222-3333")
                 .email("rubykim0724gmail.com")
                 .course(Course.VIOLIN.name())
@@ -564,6 +568,7 @@ class StudentControllerTest {
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
+                .name("ruby")
                 .phoneNumber("010-222-3333")
                 .email("rubykim0724@gmail.com")
                 .course("DRUM")
@@ -589,6 +594,7 @@ class StudentControllerTest {
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
+                .name("ruby")
                 .phoneNumber("010-222-3333")
                 .email("rubykim0724@gmail.com")
                 .course(Course.PIANO.name())
@@ -614,12 +620,13 @@ class StudentControllerTest {
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
-                        .phoneNumber("010-2222-3333")
-                        .email("rubykim0724@gmail.com")
-                        .course(Course.VIOLIN.name())
-                        .grade(Grade.ADVANCED.name())
-                        .teacherId(teacher.getId())
-                        .build();
+                .name("ruby")
+                .phoneNumber("010-2222-3333")
+                .email("rubykim0724@gmail.com")
+                .course(Course.VIOLIN.name())
+                .grade(Grade.ADVANCED.name())
+                .teacherId(teacher.getId())
+                .build();
 
         mockMvc.perform(patch("/students/{studentId}", student.getId())
                         .contentType(APPLICATION_JSON)

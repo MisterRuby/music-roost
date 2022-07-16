@@ -13,8 +13,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.enums.Course;
 import ruby.musicroost.domain.enums.Grade;
+import ruby.musicroost.exception.student.StudentNotFoundException;
+import ruby.musicroost.exception.teacher.TeacherNotFoundException;
 import ruby.musicroost.repository.TeacherRepository;
 import ruby.musicroost.request.student.StudentRegister;
+import ruby.musicroost.request.teacher.TeacherEdit;
 import ruby.musicroost.request.teacher.TeacherRegister;
 import ruby.musicroost.valid.CoursePattern;
 import ruby.musicroost.valid.EmailPattern;
@@ -30,8 +33,7 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.Assertions.*;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -339,4 +341,162 @@ class TeacherControllerTest {
                 .andDo(print());
     }
     /** 목록조회 end */
+
+    /** 수정 start */
+    Teacher createTeacher() {
+        Teacher teacher = Teacher.builder()
+                .name("teacher")
+                .email("rubykim0723@gmail.com")
+                .phoneNumber("010-1111-2222")
+                .course(Course.VIOLA)
+                .build();
+        return teacherRepository.save(teacher);
+    }
+
+    @Test
+    @DisplayName("선생님 정보 잘못된 이름으로 수정")
+    void editByWrongName() throws Exception {
+        Teacher teacher = createTeacher();
+
+        TeacherEdit teacherEdit = TeacherEdit.builder()
+                .name("teacher1$@!#")
+                .email("rubykim0724@gmail.com")
+                .phoneNumber("010-1111-3333")
+                .course(Course.VIOLIN.name())
+                .build();
+
+        mockMvc.perform(patch("/teachers/{teacherId}", teacher.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(teacherEdit))
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
+                .andExpect(jsonPath("$.validation.name").value(NamePattern.MESSAGE))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 정보 잘못된 이메일로 수정")
+    void editByWrongEmail() throws Exception {
+        Teacher teacher = createTeacher();
+
+        TeacherEdit teacherEdit = TeacherEdit.builder()
+                .name("teacher1")
+                .email("rubykim0724gmail.com")
+                .phoneNumber("010-1111-3333")
+                .course(Course.VIOLIN.name())
+                .build();
+
+        mockMvc.perform(patch("/teachers/{teacherId}", teacher.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(teacherEdit))
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
+                .andExpect(jsonPath("$.validation.email").value(EmailPattern.MESSAGE))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 정보 잘못된 핸드폰 번호로 수정")
+    void editByWrongPhoneNumber() throws Exception {
+        Teacher teacher = createTeacher();
+
+        TeacherEdit teacherEdit = TeacherEdit.builder()
+                .name("teacher1")
+                .email("rubykim0724@gmail.com")
+                .phoneNumber("010-11-3333")
+                .course(Course.VIOLIN.name())
+                .build();
+
+        mockMvc.perform(patch("/teachers/{teacherId}", teacher.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(teacherEdit))
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
+                .andExpect(jsonPath("$.validation.phoneNumber").value(PhonePattern.MESSAGE))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 정보 잘못된 과목으로 수정")
+    void editByWrongCourse() throws Exception {
+        Teacher teacher = createTeacher();
+
+        TeacherEdit teacherEdit = TeacherEdit.builder()
+                .name("teacher1")
+                .email("rubykim0724@gmail.com")
+                .phoneNumber("010-1111-3333")
+                .course("WRONG")
+                .build();
+
+        mockMvc.perform(patch("/teachers/{teacherId}", teacher.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(teacherEdit))
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
+                .andExpect(jsonPath("$.validation.course").value(CoursePattern.MESSAGE))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 정보 수정")
+    void edit() throws Exception {
+        Teacher teacher = createTeacher();
+
+        TeacherEdit teacherEdit = TeacherEdit.builder()
+                .name("teacher1")
+                .email("rubykim0724@gmail.com")
+                .phoneNumber("010-1111-3333")
+                .course(Course.VIOLIN.name())
+                .build();
+
+        mockMvc.perform(patch("/teachers/{teacherId}", teacher.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(teacherEdit))
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        Teacher editTeacher = teacherRepository.findById(teacher.getId()).get();
+        assertThat(editTeacher.getName()).isEqualTo(teacherEdit.getName());
+        assertThat(editTeacher.getEmail()).isEqualTo(teacherEdit.getEmail());
+        assertThat(editTeacher.getPhoneNumber()).isEqualTo(teacherEdit.getPhoneNumber());
+        assertThat(editTeacher.getCourse()).isEqualTo(Course.valueOf(teacherEdit.getCourse()));
+    }
+    /** 수정 end */
+
+
+    /** 삭제 start */
+    @Test
+    @DisplayName("선생님 없는 정보 삭제")
+    void deleteTeacherByWrongId() throws Exception {
+        Teacher teacher = createTeacher();
+
+        mockMvc.perform(delete("/teachers/{teacherId}", teacher.getId() + 1))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
+                .andExpect(jsonPath("$.message").value(TeacherNotFoundException.MESSAGE))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("선생님 정보 삭제")
+    void deleteTeacher() throws Exception {
+        Teacher teacher = createTeacher();
+
+        mockMvc.perform(delete("/teachers/{teacherId}", teacher.getId()))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        List<Teacher> teachers = teacherRepository.findAll();
+        assertThat(teachers.size()).isEqualTo(0);
+    }
+    /** 삭제 end */
 }

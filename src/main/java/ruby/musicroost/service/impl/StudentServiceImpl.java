@@ -79,6 +79,7 @@ public class StudentServiceImpl implements StudentService {
                 .orElseThrow(TeacherNotFoundException::new);
 
         StudentEditor studentEditor = student.toEditor()
+                .name(studentEdit.getName())
                 .phoneNumber(studentEdit.getPhoneNumber())
                 .email(studentEdit.getEmail())
                 .course(Course.valueOf(studentEdit.getCourse()))

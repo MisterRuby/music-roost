@@ -1,4 +1,4 @@
-package ruby.musicroost.request.student;
+package ruby.musicroost.request.teacher;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import ruby.musicroost.valid.*;
 
 @Getter @Setter
 @NoArgsConstructor
-public class StudentEdit {
+public class TeacherEdit {
 
     @NamePattern
     private String name;
@@ -18,17 +18,12 @@ public class StudentEdit {
     private String email;
     @CoursePattern
     private String course;
-    @GradePattern
-    private String grade;
-    private Long teacherId;
 
     @Builder
-    public StudentEdit(String name, String phoneNumber, String email, String course, String grade, Long teacherId) {
+    public TeacherEdit(String name, String phoneNumber, String email, String course) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.course = course;
-        this.grade = grade;
-        this.teacherId = teacherId;
     }
 }
