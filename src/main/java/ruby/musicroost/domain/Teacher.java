@@ -4,11 +4,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import ruby.musicroost.domain.enums.Course;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,9 +19,19 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String email;
+    private String phoneNumber;
+    @Enumerated
+    private Course course;
+    @CreatedDate
+    private LocalDate since;
 
     @Builder
-    public Teacher(String name) {
+    public Teacher(String name, String email, String phoneNumber, Course course, LocalDate since) {
         this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.course = course;
+        this.since = since;
     }
 }

@@ -10,12 +10,13 @@ import ruby.musicroost.domain.Student;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.editor.StudentEditor;
 import ruby.musicroost.domain.enums.Course;
-import ruby.musicroost.exception.TeacherNotFoundException;
+import ruby.musicroost.domain.enums.Grade;
+import ruby.musicroost.exception.teacher.TeacherNotFoundException;
 import ruby.musicroost.exception.student.StudentNotFoundException;
 import ruby.musicroost.repository.StudentRepository;
 import ruby.musicroost.repository.TeacherRepository;
-import ruby.musicroost.request.StudentEdit;
-import ruby.musicroost.request.StudentSearch;
+import ruby.musicroost.request.student.StudentEdit;
+import ruby.musicroost.request.student.StudentSearch;
 import ruby.musicroost.service.StudentService;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class StudentServiceImpl implements StudentService {
      * @param newStudent
      */
     @Override
-    public void signUp(Student newStudent) {
+    public void register(Student newStudent) {
         studentRepository.save(newStudent);
     }
 
@@ -61,8 +62,8 @@ public class StudentServiceImpl implements StudentService {
     @Transactional(readOnly = true)
     public List<Student> getList(StudentSearch search) {
         Pageable pageable = PageRequest.of(max(0, search.getPage() - 1), 10);
-        return studentRepository
-                .findByCourseAndNameContains(Course.valueOf(search.getCourse()), search.getName(), pageable);
+        return studentRepository.findByCourseAndGradeAndNameContains
+                (Course.valueOf(search.getCourse()), Grade.valueOf(search.getGrade()), search.getName(), pageable);
     }
 
     /**

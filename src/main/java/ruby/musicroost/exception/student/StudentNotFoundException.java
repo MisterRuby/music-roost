@@ -1,6 +1,9 @@
 package ruby.musicroost.exception.student;
 
-public class StudentNotFoundException extends IllegalArgumentException{
+import org.springframework.http.HttpStatus;
+import ruby.musicroost.exception.BusinessException;
+
+public class StudentNotFoundException extends BusinessException {
 
     public static final String MESSAGE = "해당 수강생의 정보를 찾을 수 없습니다.";
 
@@ -8,7 +11,8 @@ public class StudentNotFoundException extends IllegalArgumentException{
         super(MESSAGE);
     }
 
-    public StudentNotFoundException(Throwable cause) {
-        super(MESSAGE, cause);
+    @Override
+    public int getStatusCode() {
+        return HttpStatus.NOT_FOUND.value();
     }
 }

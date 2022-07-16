@@ -1,6 +1,6 @@
 package ruby.musicroost.valid;
 
-import ruby.musicroost.valid.validator.PhoneValidator;
+import ruby.musicroost.valid.validator.GradeValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -13,10 +13,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target(FIELD)
 @Retention(RUNTIME)
-@Constraint(validatedBy = PhoneValidator.class)
+@Constraint(validatedBy = GradeValidator.class)
 @Documented
-public @interface PhonePattern {
-    String MESSAGE = "핸드폰 번호 입력 형식이 올바르지 않습니다.";
+public @interface GradePattern {
+
+    String MESSAGE = "등급이 올바르지 않습니다.";
 
     String message() default MESSAGE;
 

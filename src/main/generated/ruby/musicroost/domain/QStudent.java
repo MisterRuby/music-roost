@@ -26,6 +26,8 @@ public class QStudent extends EntityPathBase<Student> {
 
     public final StringPath email = createString("email");
 
+    public final EnumPath<ruby.musicroost.domain.enums.Grade> grade = createEnum("grade", ruby.musicroost.domain.enums.Grade.class);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath name = createString("name");

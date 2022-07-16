@@ -19,9 +19,17 @@ public class QTeacher extends EntityPathBase<Teacher> {
 
     public static final QTeacher teacher = new QTeacher("teacher");
 
+    public final EnumPath<ruby.musicroost.domain.enums.Course> course = createEnum("course", ruby.musicroost.domain.enums.Course.class);
+
+    public final StringPath email = createString("email");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath name = createString("name");
+
+    public final StringPath phoneNumber = createString("phoneNumber");
+
+    public final DatePath<java.time.LocalDate> since = createDate("since", java.time.LocalDate.class);
 
     public QTeacher(String variable) {
         super(Teacher.class, forVariable(variable));

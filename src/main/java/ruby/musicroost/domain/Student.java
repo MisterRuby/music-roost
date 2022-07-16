@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import ruby.musicroost.domain.editor.StudentEditor;
 import ruby.musicroost.domain.enums.Course;
+import ruby.musicroost.domain.enums.Grade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,18 +25,20 @@ public class Student {
     private String phoneNumber;
     @Enumerated
     private Course course;
+    @Enumerated
+    private Grade grade;
     @CreatedDate
     private LocalDate since;
-
     @ManyToOne(fetch = LAZY)
     private Teacher teacher;
 
     @Builder
-    public Student(String name, String email, String phoneNumber, Course course, LocalDate since) {
+    public Student(String name, String email, String phoneNumber, Course course, Grade grade, LocalDate since) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.course = course;
+        this.grade = grade;
         this.since = since;
     }
 

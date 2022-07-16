@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import ruby.musicroost.domain.Student;
 import ruby.musicroost.domain.enums.Course;
+import ruby.musicroost.domain.enums.Grade;
 import ruby.musicroost.repository.custom.StudentRepositoryCustom;
 
 import java.util.List;
@@ -35,15 +36,16 @@ public class StudentRepositoryImpl implements StudentRepositoryCustom {
     /**
      * 수강생 목록 조회
      * @param course
+     * @param grade
      * @param name
      * @param pageable
      * @return
      */
     @Override
-    public List<Student> findByCourseAndNameContains(Course course, String name, Pageable pageable) {
+    public List<Student> findByCourseAndGradeAndNameContains(Course course, Grade grade, String name, Pageable pageable) {
         return jpaQueryFactory.selectFrom(student)
                 .leftJoin(student.teacher, teacher).fetchJoin()
-                .where(searchCondition(course, name))
+                .where(searchCondition(course, grade, name))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(student.id.desc())
@@ -53,10 +55,13 @@ public class StudentRepositoryImpl implements StudentRepositoryCustom {
     /**
      * 수강생 검색 조건
      * @param course
+     * @param grade
      * @param name
      * @return
      */
-    private Predicate searchCondition(Course course, String name) {
-        return student.course.eq(course).and(student.name.contains(name));
+    private Predicate searchCondition(Course course, Grade grade, String name) {
+        return student.course.eq(course)
+                .and(student.grade.eq(grade))
+                .and(student.name.contains(name));
     }
 }

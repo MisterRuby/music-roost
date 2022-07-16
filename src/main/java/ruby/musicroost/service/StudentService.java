@@ -1,8 +1,8 @@
 package ruby.musicroost.service;
 
 import ruby.musicroost.domain.Student;
-import ruby.musicroost.request.StudentEdit;
-import ruby.musicroost.request.StudentSearch;
+import ruby.musicroost.request.student.StudentEdit;
+import ruby.musicroost.request.student.StudentSearch;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface StudentService {
      * 수강생 등록
      * @param newStudent
      */
-    void signUp(Student newStudent);
+    void register(Student newStudent);
 
     /**
      * 수강생 정보 상세 조회

@@ -14,6 +14,7 @@ public class StudentResponse {
     private String email;
     private String phoneNumber;
     private String course;
+    private String grade;
     private LocalDate since;
     private Long teacherId;
     private String teacherName;
@@ -24,6 +25,7 @@ public class StudentResponse {
         this.email = student.getEmail();
         this.phoneNumber = student.getPhoneNumber();
         this.course = student.getCourse().name();
+        this.grade = student.getGrade().name();
         this.since = student.getSince();
         if (student.getTeacher() != null) {
             this.teacherId = student.getTeacher().getId();

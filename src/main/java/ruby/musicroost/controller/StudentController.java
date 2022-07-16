@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 import ruby.musicroost.domain.Student;
-import ruby.musicroost.request.StudentEdit;
-import ruby.musicroost.request.StudentSearch;
-import ruby.musicroost.request.StudentSignUp;
+import ruby.musicroost.request.student.StudentEdit;
+import ruby.musicroost.request.student.StudentSearch;
+import ruby.musicroost.request.student.StudentRegister;
 import ruby.musicroost.response.student.StudentResponse;
 import ruby.musicroost.service.StudentService;
 
@@ -26,12 +26,12 @@ public class StudentController {
 
     /**
      * 수강생 신규 등록
-     * @param studentSignUp
+     * @param studentRegister
      */
     @PostMapping
-    public void post(@RequestBody @Valid StudentSignUp studentSignUp) {
-        Student student = mapper.map(studentSignUp, Student.class);
-        studentService.signUp(student);
+    public void post(@RequestBody @Valid StudentRegister studentRegister) {
+        Student student = mapper.map(studentRegister, Student.class);
+        studentService.register(student);
     }
 
     /**
