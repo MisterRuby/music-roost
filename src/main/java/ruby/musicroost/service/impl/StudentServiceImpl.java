@@ -1,7 +1,6 @@
 package ruby.musicroost.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,8 +10,8 @@ import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.editor.StudentEditor;
 import ruby.musicroost.domain.enums.Course;
 import ruby.musicroost.domain.enums.Grade;
-import ruby.musicroost.exception.teacher.TeacherNotFoundException;
 import ruby.musicroost.exception.student.StudentNotFoundException;
+import ruby.musicroost.exception.teacher.TeacherNotFoundException;
 import ruby.musicroost.repository.StudentRepository;
 import ruby.musicroost.repository.TeacherRepository;
 import ruby.musicroost.request.student.StudentEdit;
@@ -48,7 +47,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional(readOnly = true)
     public Student getDetail(Long studentId) {
-        return studentRepository.findDetailById(studentId)
+        return studentRepository.findById(studentId)
                 .orElseThrow(StudentNotFoundException::new);
     }
 
@@ -75,15 +74,11 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(StudentNotFoundException::new);
 
-        Teacher teacher = teacherRepository.findById(studentEdit.getTeacherId())
-                .orElseThrow(TeacherNotFoundException::new);
-
         StudentEditor studentEditor = student.toEditor()
                 .name(studentEdit.getName())
                 .phoneNumber(studentEdit.getPhoneNumber())
                 .email(studentEdit.getEmail())
                 .course(Course.valueOf(studentEdit.getCourse()))
-                .teacher(teacher)
                 .build();
 
         student.edit(studentEditor);

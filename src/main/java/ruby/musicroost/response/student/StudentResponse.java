@@ -27,9 +27,5 @@ public class StudentResponse {
         this.course = student.getCourse().name();
         this.grade = student.getGrade().name();
         this.since = student.getSince();
-        if (student.getTeacher() != null) {
-            this.teacherId = student.getTeacher().getId();
-            this.teacherName = student.getTeacher().getName();
-        }
     }
 }

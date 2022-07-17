@@ -20,15 +20,13 @@ public class StudentEdit {
     private String course;
     @GradePattern
     private String grade;
-    private Long teacherId;
 
     @Builder
-    public StudentEdit(String name, String phoneNumber, String email, String course, String grade, Long teacherId) {
+    public StudentEdit(String name, String phoneNumber, String email, String course, String grade) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.course = course;
         this.grade = grade;
-        this.teacherId = teacherId;
     }
 }

@@ -14,14 +14,12 @@ import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.enums.Course;
 import ruby.musicroost.domain.enums.Grade;
 import ruby.musicroost.exception.student.StudentNotFoundException;
-import ruby.musicroost.exception.teacher.TeacherNotFoundException;
 import ruby.musicroost.repository.StudentRepository;
 import ruby.musicroost.repository.TeacherRepository;
 import ruby.musicroost.request.student.StudentEdit;
 import ruby.musicroost.request.student.StudentRegister;
 import ruby.musicroost.valid.*;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,14 +43,11 @@ class StudentControllerTest {
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
-    private TeacherRepository teacherRepository;
-    @Autowired
     private ObjectMapper mapper;
 
     @BeforeEach
     void clean() {
         studentRepository.deleteAll();
-        teacherRepository.deleteAll();
     }
 
     /** 등록 테스트 start */
@@ -267,30 +262,15 @@ class StudentControllerTest {
     /** 목록조회 start */
 
     // 테스트데이터 셋팅
-    private List<Teacher> getTeachers() {
-        List<Teacher> teachers = IntStream.range(0, 2)
-                .mapToObj(idx -> Teacher.builder()
-                        .name("teacher" + idx)
-                        .build())
-                .collect(Collectors.toList());
-
-        return teacherRepository.saveAll(teachers);
-    }
     private List<Student> getStudents() {
-        List<Teacher> teachers = getTeachers();
-
         List<Student> students = IntStream.range(0, 30)
-                .mapToObj(idx -> {
-                    Student student = Student.builder()
+                .mapToObj(idx -> Student.builder()
                             .name("ruby" + idx)
                             .email(idx + "rubykim0723@gmail.com")
                             .phoneNumber("010-11" + idx + "-2222")
                             .course(idx < 15 ? Course.FLUTE : Course.VIOLIN)
                             .grade(idx < 15 ? Grade.BEGINNER : Grade.ADVANCED)
-                            .build();
-                    student.assignTeacher(teachers.get(idx % 2));
-                    return student;
-                })
+                            .build())
                 .collect(Collectors.toList());
 
         return studentRepository.saveAll(students);
@@ -384,8 +364,6 @@ class StudentControllerTest {
                 .andExpect(jsonPath("$[0].course").value(students.get(4).getCourse().name()))
                 .andExpect(jsonPath("$[0].grade").value(students.get(4).getGrade().name()))
                 .andExpect(jsonPath("$[0].since").value(students.get(4).getSince().format(DateTimeFormatter.ISO_LOCAL_DATE)))
-                .andExpect(jsonPath("$[0].teacherId").value(students.get(4).getTeacher().getId()))
-                .andExpect(jsonPath("$[0].teacherName").value(students.get(4).getTeacher().getName()))
                 .andDo(print());
    }
 
@@ -408,8 +386,6 @@ class StudentControllerTest {
                 .andExpect(jsonPath("$[0].course").value(students.get(14).getCourse().name()))
                 .andExpect(jsonPath("$[0].grade").value(students.get(14).getGrade().name()))
                 .andExpect(jsonPath("$[0].since").value(students.get(14).getSince().format(DateTimeFormatter.ISO_LOCAL_DATE)))
-                .andExpect(jsonPath("$[0].teacherId").value(students.get(14).getTeacher().getId()))
-                .andExpect(jsonPath("$[0].teacherName").value(students.get(14).getTeacher().getName()))
                 .andDo(print());
     }
 
@@ -433,8 +409,6 @@ class StudentControllerTest {
                 .andExpect(jsonPath("$[0].course").value(students.get(14).getCourse().name()))
                 .andExpect(jsonPath("$[0].grade").value(students.get(14).getGrade().name()))
                 .andExpect(jsonPath("$[0].since").value(students.get(14).getSince().format(DateTimeFormatter.ISO_LOCAL_DATE)))
-                .andExpect(jsonPath("$[0].teacherId").value(students.get(14).getTeacher().getId()))
-                .andExpect(jsonPath("$[0].teacherName").value(students.get(14).getTeacher().getName()))
                 .andDo(print());
     }
 
@@ -442,13 +416,6 @@ class StudentControllerTest {
 
 
     /** 수정 테스트 start */
-    Teacher getTeacher() {
-        Teacher teacher = Teacher.builder()
-                .name("eun")
-                .build();
-        return teacherRepository.save(teacher);
-    }
-
     Student getStudent() {
         Student student = Student.builder()
                 .name("ruby")
@@ -462,7 +429,6 @@ class StudentControllerTest {
     @Test
     @DisplayName("수강생 정보가 없는 id로 수정")
     void editStudentByWrongId() throws Exception {
-        Teacher teacher = getTeacher();
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
@@ -471,7 +437,6 @@ class StudentControllerTest {
                 .email("rubykim0724@gmail.com")
                 .course(Course.VIOLIN.name())
                 .grade(Grade.ADVANCED.name())
-                .teacherId(teacher.getId())
                 .build();
 
         mockMvc.perform(patch("/students/{studentId}", student.getId() + 1)
@@ -485,34 +450,8 @@ class StudentControllerTest {
     }
 
     @Test
-    @DisplayName("수강생의 선생님을 존재하지 않는 선생님으로 수정")
-    void editStudentByWrongTeacherId() throws Exception {
-        getTeacher();
-        Student student = getStudent();
-
-        StudentEdit studentEdit = StudentEdit.builder()
-                .name("ruby")
-                .phoneNumber("010-2222-3333")
-                .email("rubykim0724@gmail.com")
-                .course(Course.VIOLIN.name())
-                .grade(Grade.BEGINNER.name())
-                .teacherId(123L)
-                .build();
-
-        mockMvc.perform(patch("/students/{studentId}", student.getId())
-                        .contentType(APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(studentEdit))
-                )
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
-                .andExpect(jsonPath("$.message").value(TeacherNotFoundException.MESSAGE))
-                .andDo(print());
-    }
-
-    @Test
     @DisplayName("수강생의 전화번호를 잘못된 형식으로 수정")
     void editStudentByWrongPhoneNumber() throws Exception {
-        Teacher teacher = getTeacher();
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
@@ -521,7 +460,6 @@ class StudentControllerTest {
                 .email("rubykim0724@gmail.com")
                 .course(Course.VIOLIN.name())
                 .grade(Grade.ADVANCED.name())
-                .teacherId(teacher.getId())
                 .build();
 
         mockMvc.perform(patch("/students/{studentId}", student.getId())
@@ -538,7 +476,6 @@ class StudentControllerTest {
     @Test
     @DisplayName("수강생의 이메일을 잘못된 형식으로 수정")
     void editStudentByWrongEmail() throws Exception {
-        Teacher teacher = getTeacher();
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
@@ -547,7 +484,6 @@ class StudentControllerTest {
                 .email("rubykim0724gmail.com")
                 .course(Course.VIOLIN.name())
                 .grade(Grade.ADVANCED.name())
-                .teacherId(teacher.getId())
                 .build();
 
         mockMvc.perform(patch("/students/{studentId}", student.getId())
@@ -564,7 +500,6 @@ class StudentControllerTest {
     @Test
     @DisplayName("수강생의 수강과목을 잘못된 값으로 수정")
     void editStudentByWrongCourse() throws Exception {
-        Teacher teacher = getTeacher();
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
@@ -573,7 +508,6 @@ class StudentControllerTest {
                 .email("rubykim0724@gmail.com")
                 .course("DRUM")
                 .grade(Grade.BEGINNER.name())
-                .teacherId(teacher.getId())
                 .build();
 
         mockMvc.perform(patch("/students/{studentId}", student.getId())
@@ -590,7 +524,6 @@ class StudentControllerTest {
     @Test
     @DisplayName("수강생의 등급을 잘못된 값으로 수정")
     void editStudentByWrongGrade() throws Exception {
-        Teacher teacher = getTeacher();
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
@@ -599,7 +532,6 @@ class StudentControllerTest {
                 .email("rubykim0724@gmail.com")
                 .course(Course.PIANO.name())
                 .grade("asdasd")
-                .teacherId(teacher.getId())
                 .build();
 
         mockMvc.perform(patch("/students/{studentId}", student.getId())
@@ -616,7 +548,6 @@ class StudentControllerTest {
     @Test
     @DisplayName("수강생 정보 수정")
     void editStudent() throws Exception {
-        Teacher teacher = getTeacher();
         Student student = getStudent();
 
         StudentEdit studentEdit = StudentEdit.builder()
@@ -625,7 +556,6 @@ class StudentControllerTest {
                 .email("rubykim0724@gmail.com")
                 .course(Course.VIOLIN.name())
                 .grade(Grade.ADVANCED.name())
-                .teacherId(teacher.getId())
                 .build();
 
         mockMvc.perform(patch("/students/{studentId}", student.getId())
@@ -637,13 +567,11 @@ class StudentControllerTest {
 
         assertThat(studentRepository.count()).isEqualTo(1);
 
-        Student findStudent = studentRepository.findDetailById(student.getId()).get();
+        Student findStudent = studentRepository.findById(student.getId()).get();
         assertThat(findStudent.getName()).isEqualTo("ruby");
         assertThat(findStudent.getEmail()).isEqualTo(studentEdit.getEmail());
         assertThat(findStudent.getPhoneNumber()).isEqualTo(studentEdit.getPhoneNumber());
         assertThat(findStudent.getCourse()).isEqualTo(Course.valueOf(studentEdit.getCourse()));
-        assertThat(findStudent.getTeacher().getId()).isEqualTo(teacher.getId());
-        assertThat(findStudent.getTeacher().getName()).isEqualTo(teacher.getName());
     }
 
     /** 수정 테스트 end */

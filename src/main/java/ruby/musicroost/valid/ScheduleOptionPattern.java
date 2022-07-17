@@ -1,6 +1,6 @@
 package ruby.musicroost.valid;
 
-import ruby.musicroost.valid.validator.EmailValidator;
+import ruby.musicroost.valid.validator.ScheduleOptionValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -13,10 +13,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target(FIELD)
 @Retention(RUNTIME)
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = ScheduleOptionValidator.class)
 @Documented
-public @interface EmailPattern {
-    String MESSAGE = "이메일 입력 형식이 올바르지 않습니다.";
+public @interface ScheduleOptionPattern {
+
+    String MESSAGE = "스케쥴 검색 종류가 올바르지 않습니다.";
 
     String message() default MESSAGE;
 

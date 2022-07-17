@@ -1,13 +1,12 @@
 package ruby.musicroost.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 import ruby.musicroost.domain.Student;
 import ruby.musicroost.request.student.StudentEdit;
-import ruby.musicroost.request.student.StudentSearch;
 import ruby.musicroost.request.student.StudentRegister;
+import ruby.musicroost.request.student.StudentSearch;
 import ruby.musicroost.response.student.StudentResponse;
 import ruby.musicroost.service.StudentService;
 
@@ -15,7 +14,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/students")
@@ -29,7 +27,7 @@ public class StudentController {
      * @param studentRegister
      */
     @PostMapping
-    public void post(@RequestBody @Valid StudentRegister studentRegister) {
+    public void register(@RequestBody @Valid StudentRegister studentRegister) {
         Student student = mapper.map(studentRegister, Student.class);
         studentService.register(student);
     }

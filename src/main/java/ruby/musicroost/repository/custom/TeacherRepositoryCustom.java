@@ -3,7 +3,6 @@ package ruby.musicroost.repository.custom;
 import org.springframework.data.domain.Pageable;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.enums.Course;
-import ruby.musicroost.domain.enums.Grade;
 
 import java.util.List;
 

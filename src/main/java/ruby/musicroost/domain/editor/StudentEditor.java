@@ -11,14 +11,12 @@ public class StudentEditor {
     private String email;
     private String phoneNumber;
     private Course course;
-    private Teacher teacher;
 
     @Builder
-    public StudentEditor(String name, String email, String phoneNumber, Course course, Teacher teacher) {
+    public StudentEditor(String name, String email, String phoneNumber, Course course) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.course = course;
-        this.teacher = teacher;
     }
 }

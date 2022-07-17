@@ -4,7 +4,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ruby.musicroost.valid.*;
+import ruby.musicroost.valid.CoursePattern;
+import ruby.musicroost.valid.EmailPattern;
+import ruby.musicroost.valid.NamePattern;
+import ruby.musicroost.valid.PhonePattern;
 
 @Getter @Setter
 @NoArgsConstructor

@@ -1,13 +1,12 @@
 package ruby.musicroost.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.request.teacher.TeacherEdit;
-import ruby.musicroost.request.teacher.TeacherSearch;
 import ruby.musicroost.request.teacher.TeacherRegister;
+import ruby.musicroost.request.teacher.TeacherSearch;
 import ruby.musicroost.response.teacher.TeacherResponse;
 import ruby.musicroost.service.TeacherService;
 
@@ -15,7 +14,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/teachers")
@@ -29,7 +27,7 @@ public class TeacherController {
      * @param teacherRegister
      */
     @PostMapping
-    public void post(@RequestBody @Valid TeacherRegister teacherRegister) {
+    public void register(@RequestBody @Valid TeacherRegister teacherRegister) {
         Teacher teacher = mapper.map(teacherRegister, Teacher.class);
         teacherService.register(teacher);
     }

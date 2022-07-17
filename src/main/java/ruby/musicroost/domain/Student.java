@@ -30,8 +30,6 @@ public class Student {
     private Grade grade;
     @CreatedDate
     private LocalDate since;
-    @ManyToOne(fetch = LAZY)
-    private Teacher teacher;
 
     @Builder
     public Student(String name, String email, String phoneNumber, Course course, Grade grade) {
@@ -45,23 +43,14 @@ public class Student {
     /** 비즈니스 메서드 start */
 
     /**
-     * 선생님 배정
-     * @param teacher
-     */
-    public void assignTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
-
-    /**
      * 수강생 정보 수정
      * @param editor
      */
     public void edit(StudentEditor editor) {
         this.name = editor.getName();
-        this.phoneNumber = editor.getPhoneNumber();
         this.email = editor.getEmail();
+        this.phoneNumber = editor.getPhoneNumber();
         this.course = editor.getCourse();
-        this.teacher = editor.getTeacher();
     }
 
     /** 비즈니스 메서드 end */
@@ -72,10 +61,9 @@ public class Student {
     public StudentEditor.StudentEditorBuilder toEditor() {
         return StudentEditor.builder()
                 .name(this.name)
-                .phoneNumber(this.phoneNumber)
                 .email(this.email)
-                .course(this.course)
-                .teacher(this.teacher);
+                .phoneNumber(this.phoneNumber)
+                .course(this.course);
     }
 
     /** 유틸리티 메서드 end */
