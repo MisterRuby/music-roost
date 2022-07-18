@@ -3,51 +3,102 @@
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectlinks:
 
-== 수강생 등록
+== Student
 
-=== 요청
+=== 수강생 등록
+
+==== 요청
 include::{snippets}/student-register/http-request.adoc[]
 include::{snippets}/student-register/request-fields.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/student-register/http-response.adoc[]
 
 
-== 수강생 목록 조회
+=== 수강생 목록 조회
 
-=== 요청
+==== 요청
 include::{snippets}/student-inquiryList/http-request.adoc[]
 include::{snippets}/student-inquiryList/request-parameters.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/student-inquiryList/http-response.adoc[]
 include::{snippets}/student-inquiryList/response-fields.adoc[]
 
 
-== 수강생 단건 조회
+=== 수강생 상세 조회
 
-=== 요청
+==== 요청
 include::{snippets}/student-inquiry/http-request.adoc[]
 include::{snippets}/student-inquiry/path-parameters.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/student-inquiry/http-response.adoc[]
 include::{snippets}/student-inquiry/response-fields.adoc[]
 
 
-== 수강생 정보 수정
+=== 수강생 정보 수정
 
-=== 요청
+==== 요청
 include::{snippets}/student-edit/http-request.adoc[]
 include::{snippets}/student-edit/request-fields.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/student-edit/http-response.adoc[]
 
 
-== 수강생 정보 삭제
+=== 수강생 정보 삭제
 
-=== 요청
+==== 요청
 include::{snippets}/student-delete/http-request.adoc[]
 include::{snippets}/student-delete/path-parameters.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/student-delete/http-response.adoc[]
+
+
+== Teacher
+
+=== 선생님 등록
+
+==== 요청
+include::{snippets}/teacher-register/http-request.adoc[]
+include::{snippets}/teacher-register/request-fields.adoc[]
+==== 응답
+include::{snippets}/teacher-register/http-response.adoc[]
+
+
+=== 선생님 목록 조회
+
+==== 요청
+include::{snippets}/teacher-inquiryList/http-request.adoc[]
+include::{snippets}/teacher-inquiryList/request-parameters.adoc[]
+==== 응답
+include::{snippets}/teacher-inquiryList/http-response.adoc[]
+include::{snippets}/teacher-inquiryList/response-fields.adoc[]
+
+
+=== 선생님 상세 조회
+
+==== 요청
+include::{snippets}/teacher-inquiry/http-request.adoc[]
+include::{snippets}/teacher-inquiry/path-parameters.adoc[]
+==== 응답
+include::{snippets}/teacher-inquiry/http-response.adoc[]
+include::{snippets}/teacher-inquiry/response-fields.adoc[]
+
+
+=== 선생님 정보 수정
+
+==== 요청
+include::{snippets}/teacher-edit/http-request.adoc[]
+include::{snippets}/teacher-edit/request-fields.adoc[]
+==== 응답
+include::{snippets}/teacher-edit/http-response.adoc[]
+
+
+=== 선생님 정보 삭제
+
+==== 요청
+include::{snippets}/teacher-delete/http-request.adoc[]
+include::{snippets}/teacher-delete/path-parameters.adoc[]
+==== 응답
+include::{snippets}/teacher-delete/http-response.adoc[]
