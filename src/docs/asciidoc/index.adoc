@@ -11,7 +11,6 @@
 === 요청
 include::{snippets}/student-register/http-request.adoc[]
 include::{snippets}/student-register/request-fields.adoc[]
-
 === 응답
 include::{snippets}/student-register/http-response.adoc[]
 
@@ -21,11 +20,9 @@ include::{snippets}/student-register/http-response.adoc[]
 === 요청
 include::{snippets}/student-inquiryList/http-request.adoc[]
 include::{snippets}/student-inquiryList/request-parameters.adoc[]
-
 === 응답
 include::{snippets}/student-inquiryList/http-response.adoc[]
 include::{snippets}/student-inquiryList/response-fields.adoc[]
-
 
 
 == 수강생 단건 조회
@@ -33,10 +30,24 @@ include::{snippets}/student-inquiryList/response-fields.adoc[]
 === 요청
 include::{snippets}/student-inquiry/http-request.adoc[]
 include::{snippets}/student-inquiry/path-parameters.adoc[]
-
 === 응답
 include::{snippets}/student-inquiry/http-response.adoc[]
 include::{snippets}/student-inquiry/response-fields.adoc[]
 
 
+== 수강생 정보 수정
 
+=== 요청
+include::{snippets}/student-edit/http-request.adoc[]
+include::{snippets}/student-edit/request-fields.adoc[]
+=== 응답
+include::{snippets}/student-edit/http-response.adoc[]
+
+
+== 수강생 정보 삭제
+
+=== 요청
+include::{snippets}/student-delete/http-request.adoc[]
+include::{snippets}/student-delete/path-parameters.adoc[]
+=== 응답
+include::{snippets}/student-delete/http-response.adoc[]
