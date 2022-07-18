@@ -19,6 +19,6 @@ public class AppConfig {
                 .setDestinationNameTokenizer(NameTokenizers.UNDERSCORE)
                 .setSourceNameTokenizer(NameTokenizers.UNDERSCORE);
 
-        return new ModelMapper();
+        return modelMapper;
     }
 }

@@ -45,27 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ruby.musicroost.controller.ExceptionController.BIND_EXCEPTION_MESSAGE;
 
-@AutoConfigureMockMvc
-@SpringBootTest
-class ScheduleControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private TeacherRepository teacherRepository;
-    @Autowired
-    private ScheduleRepository scheduleRepository;
-    @Autowired
-    private ObjectMapper mapper;
-
-    @BeforeEach
-    void clean() {
-        scheduleRepository.deleteAll();
-        studentRepository.deleteAll();
-        teacherRepository.deleteAll();
-    }
+class ScheduleControllerTest extends ControllerTest {
 
     /** 등록 테스트 start */
     Student getFluteStudent() {

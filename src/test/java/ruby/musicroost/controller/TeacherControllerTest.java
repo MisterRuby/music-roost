@@ -1,7 +1,6 @@
 package ruby.musicroost.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,11 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.enums.Course;
-import ruby.musicroost.domain.enums.Grade;
-import ruby.musicroost.exception.student.StudentNotFoundException;
 import ruby.musicroost.exception.teacher.TeacherNotFoundException;
+import ruby.musicroost.repository.ScheduleRepository;
+import ruby.musicroost.repository.StudentRepository;
 import ruby.musicroost.repository.TeacherRepository;
-import ruby.musicroost.request.student.StudentRegister;
 import ruby.musicroost.request.teacher.TeacherEdit;
 import ruby.musicroost.request.teacher.TeacherRegister;
 import ruby.musicroost.valid.CoursePattern;
@@ -24,13 +22,12 @@ import ruby.musicroost.valid.EmailPattern;
 import ruby.musicroost.valid.NamePattern;
 import ruby.musicroost.valid.PhonePattern;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,20 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ruby.musicroost.controller.ExceptionController.BIND_EXCEPTION_MESSAGE;
 
-@AutoConfigureMockMvc
-@SpringBootTest
-class TeacherControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private TeacherRepository teacherRepository;
-    @Autowired
-    private ObjectMapper mapper;
-
-    @BeforeEach
-    void clean() {
-        teacherRepository.deleteAll();
-    }
+class TeacherControllerTest extends ControllerTest{
 
     /** 등록 테스트 start */
     @Test

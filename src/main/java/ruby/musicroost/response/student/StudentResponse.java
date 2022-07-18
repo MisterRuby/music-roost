@@ -16,8 +16,6 @@ public class StudentResponse {
     private String course;
     private String grade;
     private LocalDate since;
-    private Long teacherId;
-    private String teacherName;
 
     public StudentResponse(Student student) {
         this.id = student.getId();

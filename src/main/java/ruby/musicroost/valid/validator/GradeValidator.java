@@ -12,7 +12,7 @@ public class GradeValidator implements ConstraintValidator<GradePattern, String>
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        Pattern pattern = Pattern.compile(getRegexpCourse());
+        Pattern pattern = Pattern.compile(getRegexpGrade());
         Matcher matcher = pattern.matcher(value);
         return matcher.matches();
     }
@@ -21,7 +21,7 @@ public class GradeValidator implements ConstraintValidator<GradePattern, String>
      * 등급 정규표현식 생성
      * @return
      */
-    private String getRegexpCourse() {
+    public static String getRegexpGrade() {
         Grade[] grades = Grade.values();
         StringBuilder builder = new StringBuilder();
         for (Grade grade : grades) {

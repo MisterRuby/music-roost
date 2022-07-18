@@ -21,7 +21,7 @@ public class CourseValidator implements ConstraintValidator<CoursePattern, Strin
      * 수강과목 정규표현식 생성
      * @return
      */
-    private String getRegexpCourse() {
+    public static String getRegexpCourse() {
         Course[] courses = Course.values();
         StringBuilder builder = new StringBuilder();
         for (Course course : courses) {

@@ -1,21 +1,12 @@
 package ruby.musicroost.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.MockMvc;
 import ruby.musicroost.domain.Student;
-import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.enums.Course;
 import ruby.musicroost.domain.enums.Grade;
 import ruby.musicroost.exception.student.StudentNotFoundException;
-import ruby.musicroost.repository.StudentRepository;
-import ruby.musicroost.repository.TeacherRepository;
 import ruby.musicroost.request.student.StudentEdit;
 import ruby.musicroost.request.student.StudentRegister;
 import ruby.musicroost.valid.*;
@@ -34,21 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ruby.musicroost.controller.ExceptionController.BIND_EXCEPTION_MESSAGE;
 
-@AutoConfigureMockMvc
-@SpringBootTest
-class StudentControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private ObjectMapper mapper;
-
-    @BeforeEach
-    void clean() {
-        studentRepository.deleteAll();
-    }
+class StudentControllerTest extends ControllerTest {
 
     /** 등록 테스트 start */
 
