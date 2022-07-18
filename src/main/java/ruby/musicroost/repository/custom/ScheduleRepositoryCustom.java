@@ -5,6 +5,7 @@ import ruby.musicroost.domain.Schedule;
 import ruby.musicroost.request.schedule.enums.ScheduleOption;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ScheduleRepositoryCustom{
 
@@ -16,4 +17,11 @@ public interface ScheduleRepositoryCustom{
      * @return
      */
     List<Schedule> findByNameContains(ScheduleOption option, String name, Pageable pageable);
+
+    /**
+     * 스케쥴 정보 조회
+     * @param scheduleId
+     * @return
+     */
+    Optional<Schedule> findByIdFetchTeacher(Long scheduleId);
 }

@@ -1,6 +1,7 @@
 package ruby.musicroost.service;
 
 import ruby.musicroost.domain.Schedule;
+import ruby.musicroost.request.schedule.ScheduleEdit;
 import ruby.musicroost.request.schedule.ScheduleRegister;
 import ruby.musicroost.request.schedule.ScheduleSearch;
 
@@ -21,4 +22,10 @@ public interface ScheduleService {
      */
     List<Schedule> getList(ScheduleSearch search);
 
+    /**
+     * 스케쥴 수정
+     * @param scheduleId
+     * @param scheduleEdit
+     */
+    void edit(Long scheduleId, ScheduleEdit scheduleEdit);
 }

@@ -10,7 +10,7 @@ import ruby.musicroost.domain.enums.Grade;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-import static javax.persistence.FetchType.LAZY;
+import static ruby.musicroost.domain.editor.StudentEditor.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -58,7 +58,7 @@ public class Student {
 
     /** 유틸리티 메서드 start */
 
-    public StudentEditor.StudentEditorBuilder toEditor() {
+    public StudentEditorBuilder toEditor() {
         return StudentEditor.builder()
                 .name(this.name)
                 .email(this.email)

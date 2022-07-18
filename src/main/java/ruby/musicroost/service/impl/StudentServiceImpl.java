@@ -6,12 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ruby.musicroost.domain.Student;
-import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.editor.StudentEditor;
 import ruby.musicroost.domain.enums.Course;
 import ruby.musicroost.domain.enums.Grade;
 import ruby.musicroost.exception.student.StudentNotFoundException;
-import ruby.musicroost.exception.teacher.TeacherNotFoundException;
 import ruby.musicroost.repository.StudentRepository;
 import ruby.musicroost.repository.TeacherRepository;
 import ruby.musicroost.request.student.StudentEdit;
@@ -28,7 +26,6 @@ import static java.lang.Math.max;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
-    private final TeacherRepository teacherRepository;
 
     /**
      * 수강생 등록

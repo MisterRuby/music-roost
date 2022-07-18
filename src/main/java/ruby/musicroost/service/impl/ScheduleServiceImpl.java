@@ -8,19 +8,20 @@ import org.springframework.transaction.annotation.Transactional;
 import ruby.musicroost.domain.Schedule;
 import ruby.musicroost.domain.Student;
 import ruby.musicroost.domain.Teacher;
+import ruby.musicroost.domain.editor.ScheduleEditor;
 import ruby.musicroost.exception.schedule.ScheduleDifferentCourseException;
+import ruby.musicroost.exception.schedule.ScheduleNotFoundException;
 import ruby.musicroost.exception.student.StudentNotFoundException;
 import ruby.musicroost.exception.teacher.TeacherNotFoundException;
 import ruby.musicroost.repository.ScheduleRepository;
 import ruby.musicroost.repository.StudentRepository;
 import ruby.musicroost.repository.TeacherRepository;
+import ruby.musicroost.request.schedule.ScheduleEdit;
 import ruby.musicroost.request.schedule.ScheduleRegister;
 import ruby.musicroost.request.schedule.ScheduleSearch;
 import ruby.musicroost.request.schedule.enums.ScheduleOption;
 import ruby.musicroost.service.ScheduleService;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.lang.Math.max;
@@ -48,7 +49,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule schedule = Schedule.builder()
                 .student(student)
                 .teacher(teacher)
-                .time(LocalDateTime.parse(scheduleRegister.getTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .time(scheduleRegister.getParseTime())
                 .build();
 
         if (!schedule.isPracticable()) throw new ScheduleDifferentCourseException();
@@ -62,8 +63,33 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public List<Schedule> getList(ScheduleSearch search) {
         Pageable pageable = PageRequest.of(max(0, search.getPage() - 1), 10);
         return scheduleRepository.findByNameContains(ScheduleOption.valueOf(search.getOption()), search.getName(), pageable);
+    }
+
+    /**
+     * 스케쥴 수정
+     * @param scheduleId
+     * @param scheduleEdit
+     */
+    @Override
+    public void edit(Long scheduleId, ScheduleEdit scheduleEdit) {
+        Schedule schedule = scheduleRepository.findByIdFetchTeacher(scheduleId)
+                .orElseThrow(ScheduleNotFoundException::new);
+
+        Teacher teacher = teacherRepository.findById(scheduleEdit.getTeacherId())
+                .orElseThrow(TeacherNotFoundException::new);
+
+        ScheduleEditor scheduleEditor = schedule.toEditor()
+                .teacher(teacher)
+                .time(scheduleEdit.getParseTime())
+                .build();
+
+        schedule.edit(scheduleEditor);
+
+        // 최종 update 되기전에 수정된 선생님과 수강생의 과목이 같은지 확인
+        if (!schedule.isPracticable()) throw new ScheduleDifferentCourseException();
     }
 }

@@ -1,9 +1,9 @@
 package ruby.musicroost.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ruby.musicroost.domain.Schedule;
+import ruby.musicroost.request.schedule.ScheduleEdit;
 import ruby.musicroost.request.schedule.ScheduleRegister;
 import ruby.musicroost.request.schedule.ScheduleSearch;
 import ruby.musicroost.response.schedule.ScheduleResponse;
@@ -42,8 +42,8 @@ public class ScheduleController {
     }
 
     @PatchMapping("/{scheduleId}")
-    public void edit(@PathVariable Long scheduleId) {
-
+    public void edit(@PathVariable Long scheduleId, @RequestBody @Valid ScheduleEdit scheduleEdit) {
+        scheduleService.edit(scheduleId, scheduleEdit);
     }
 
     @DeleteMapping("/{scheduleId}")

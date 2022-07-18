@@ -4,18 +4,16 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import ruby.musicroost.domain.QSchedule;
-import ruby.musicroost.domain.QStudent;
-import ruby.musicroost.domain.QTeacher;
 import ruby.musicroost.domain.Schedule;
 import ruby.musicroost.repository.custom.ScheduleRepositoryCustom;
 import ruby.musicroost.request.schedule.enums.ScheduleOption;
 
 import java.util.List;
+import java.util.Optional;
 
-import static ruby.musicroost.domain.QSchedule.*;
-import static ruby.musicroost.domain.QStudent.*;
-import static ruby.musicroost.domain.QTeacher.*;
+import static ruby.musicroost.domain.QSchedule.schedule;
+import static ruby.musicroost.domain.QStudent.student;
+import static ruby.musicroost.domain.QTeacher.teacher;
 
 @RequiredArgsConstructor
 public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
@@ -31,7 +29,6 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
      */
     @Override
     public List<Schedule> findByNameContains(ScheduleOption option, String name, Pageable pageable) {
-        // 스케쥴에 연관되어 있는 수강생, 선생님 정보도 같이 조회되어야 함 -> 화면에서 보여줄 때 id와 이름도 팔요하므로
         return jpaQueryFactory.selectFrom(schedule)
                 .leftJoin(schedule.teacher, teacher).fetchJoin()
                 .leftJoin(schedule.student, student).fetchJoin()
@@ -40,6 +37,21 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
                 .offset(pageable.getOffset())
                 .orderBy(schedule.id.desc())
                 .fetch();
+    }
+
+    /**
+     * 스케쥴 정보 조회
+     * @param scheduleId
+     * @return
+     */
+    @Override
+    public Optional<Schedule> findByIdFetchTeacher(Long scheduleId) {
+        Schedule findSchedule = jpaQueryFactory.selectFrom(schedule)
+                .leftJoin(schedule.student, student).fetchJoin()
+                .where(schedule.id.eq(scheduleId))
+                .fetchOne();
+
+        return Optional.ofNullable(findSchedule);
     }
 
     /**

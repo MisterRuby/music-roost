@@ -12,6 +12,8 @@ import ruby.musicroost.domain.enums.Course;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+import static ruby.musicroost.domain.editor.TeacherEditor.*;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(value = AuditingEntityListener.class)
@@ -54,7 +56,7 @@ public class Teacher {
 
 
     /** 유틸리티 메서드 start */
-    public TeacherEditor.TeacherEditorBuilder toEditor() {
+    public TeacherEditorBuilder toEditor() {
         return TeacherEditor.builder()
                 .name(this.name)
                 .phoneNumber(this.phoneNumber)
