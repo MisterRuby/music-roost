@@ -447,13 +447,13 @@ class ScheduleControllerTest {
                         .content(mapper.writeValueAsString(scheduleEdit))
                 )
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
                 .andExpect(jsonPath("$.message").value(ScheduleNotFoundException.MESSAGE))
                 .andDo(print());
     }
 
     @Test
-    @DisplayName("스케쥴 잘못된 시간으로 수정")
+    @DisplayName("스케쥴 담당 선생님을 존재하지 않는 선생님으로 수정")
     void editScheduleByNoneTeacher() throws Exception {
         Schedule schedule = getSchedule();
         Teacher newTeacher = getFluteTeacher();
@@ -468,7 +468,7 @@ class ScheduleControllerTest {
                         .content(mapper.writeValueAsString(scheduleEdit))
                 )
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
                 .andExpect(jsonPath("$.message").value(TeacherNotFoundException.MESSAGE))
                 .andDo(print());
     }
@@ -549,5 +549,30 @@ class ScheduleControllerTest {
     /** 수정 테스트 end */
 
     /** 삭제 테스트 start */
+    @Test
+    @DisplayName("존재하지 않는 스케쥴 삭제")
+    void deleteScheduleByNoneSchedule() throws Exception {
+        Schedule schedule = getSchedule();
+
+        mockMvc.perform(delete("/schedules/{scheduleId}", schedule.getId() + 1)
+                )
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
+                .andExpect(jsonPath("$.message").value(ScheduleNotFoundException.MESSAGE))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("스케쥴 삭제")
+    void deleteSchedule() throws Exception {
+        Schedule schedule = getSchedule();
+
+        mockMvc.perform(delete("/schedules/{scheduleId}", schedule.getId())
+                )
+                .andExpect(status().isOk())
+                .andDo(print());
+
+        assertThat(scheduleRepository.findAll().size()).isEqualTo(0);
+    }
     /** 삭제 테스트 end */
 }

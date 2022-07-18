@@ -20,8 +20,6 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-
-    // TODO - 목록조회(상세조회 없음), 수정, 삭제
     /**
      * 스케쥴 등록
      * @param scheduleRegister
@@ -41,13 +39,22 @@ public class ScheduleController {
         return schedules.stream().map(ScheduleResponse::new).collect(Collectors.toList());
     }
 
+    /**
+     * 스케쥴 수정
+     * @param scheduleId
+     * @param scheduleEdit
+     */
     @PatchMapping("/{scheduleId}")
     public void edit(@PathVariable Long scheduleId, @RequestBody @Valid ScheduleEdit scheduleEdit) {
         scheduleService.edit(scheduleId, scheduleEdit);
     }
 
+    /**
+     * 스케쥴 삭제
+     * @param scheduleId
+     */
     @DeleteMapping("/{scheduleId}")
     public void delete(@PathVariable Long scheduleId){
-
+        scheduleService.delete(scheduleId);
     }
 }

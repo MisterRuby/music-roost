@@ -28,4 +28,10 @@ public interface ScheduleService {
      * @param scheduleEdit
      */
     void edit(Long scheduleId, ScheduleEdit scheduleEdit);
+
+    /**
+     * 스케쥴 삭제
+     * @param scheduleId
+     */
+    void delete(Long scheduleId);
 }

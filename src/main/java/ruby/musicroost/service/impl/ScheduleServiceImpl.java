@@ -92,4 +92,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         // 최종 update 되기전에 수정된 선생님과 수강생의 과목이 같은지 확인
         if (!schedule.isPracticable()) throw new ScheduleDifferentCourseException();
     }
+
+    /**
+     * 스케쥴 삭제
+     * @param scheduleId
+     */
+    @Override
+    public void delete(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(ScheduleNotFoundException::new);
+
+        scheduleRepository.delete(schedule);
+    }
 }
