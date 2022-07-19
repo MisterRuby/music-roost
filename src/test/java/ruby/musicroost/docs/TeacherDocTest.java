@@ -7,33 +7,23 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import ruby.musicroost.controller.ControllerTest;
-import ruby.musicroost.domain.Student;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.enums.Course;
-import ruby.musicroost.domain.enums.Grade;
-import ruby.musicroost.request.student.StudentEdit;
 import ruby.musicroost.request.teacher.TeacherEdit;
 import ruby.musicroost.request.teacher.TeacherRegister;
 import ruby.musicroost.valid.validator.CourseValidator;
-import ruby.musicroost.valid.validator.GradeValidator;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "music-roost.com", uriPort = 443)
@@ -52,7 +42,6 @@ public class TeacherDocTest extends ControllerTest {
 
         mockMvc.perform(post("/teachers")
                         .contentType(APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(teacher))
                 )
                 .andDo(print())
@@ -159,7 +148,6 @@ public class TeacherDocTest extends ControllerTest {
 
         mockMvc.perform(patch("/teachers/{teacherId}", teacher.getId())
                         .contentType(APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(teacherEdit))
                 )
                 .andDo(print())
@@ -188,8 +176,7 @@ public class TeacherDocTest extends ControllerTest {
                 .build();
         teacherRepository.save(teacher);
 
-        mockMvc.perform(delete("/teachers/{teacherId}", teacher.getId())
-                        .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/teachers/{teacherId}", teacher.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("teacher-delete",
@@ -201,9 +188,5 @@ public class TeacherDocTest extends ControllerTest {
 
     private String getCourseConstraintString() {
         return CourseValidator.getRegexpCourse().replaceAll("\\|", " / ");
-    }
-
-    private String getGradeConstraintString() {
-        return GradeValidator.getRegexpGrade().replaceAll("\\|", " / ");
     }
 }

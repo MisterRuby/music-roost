@@ -1,16 +1,8 @@
 package ruby.musicroost.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import ruby.musicroost.domain.Schedule;
 import ruby.musicroost.domain.Student;
 import ruby.musicroost.domain.Teacher;
@@ -20,9 +12,6 @@ import ruby.musicroost.exception.schedule.ScheduleDifferentCourseException;
 import ruby.musicroost.exception.schedule.ScheduleNotFoundException;
 import ruby.musicroost.exception.student.StudentNotFoundException;
 import ruby.musicroost.exception.teacher.TeacherNotFoundException;
-import ruby.musicroost.repository.ScheduleRepository;
-import ruby.musicroost.repository.StudentRepository;
-import ruby.musicroost.repository.TeacherRepository;
 import ruby.musicroost.request.schedule.ScheduleEdit;
 import ruby.musicroost.request.schedule.ScheduleRegister;
 import ruby.musicroost.request.schedule.enums.ScheduleOption;
@@ -37,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

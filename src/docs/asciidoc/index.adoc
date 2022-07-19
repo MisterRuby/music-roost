@@ -102,3 +102,43 @@ include::{snippets}/teacher-delete/http-request.adoc[]
 include::{snippets}/teacher-delete/path-parameters.adoc[]
 ==== 응답
 include::{snippets}/teacher-delete/http-response.adoc[]
+
+
+
+== Schedule
+
+=== 스케쥴 등록
+
+==== 요청
+include::{snippets}/schedule-register/http-request.adoc[]
+include::{snippets}/schedule-register/request-fields.adoc[]
+==== 응답
+include::{snippets}/schedule-register/http-response.adoc[]
+
+
+=== 스케쥴 목록 조회
+
+==== 요청
+include::{snippets}/schedule-inquiryList/http-request.adoc[]
+include::{snippets}/schedule-inquiryList/request-parameters.adoc[]
+==== 응답
+include::{snippets}/schedule-inquiryList/http-response.adoc[]
+include::{snippets}/schedule-inquiryList/response-fields.adoc[]
+
+
+=== 스케쥴 정보 수정
+
+==== 요청
+include::{snippets}/schedule-edit/http-request.adoc[]
+include::{snippets}/schedule-edit/request-fields.adoc[]
+==== 응답
+include::{snippets}/schedule-edit/http-response.adoc[]
+
+
+=== 스케쥴 정보 삭제
+
+==== 요청
+include::{snippets}/schedule-delete/http-request.adoc[]
+include::{snippets}/schedule-delete/path-parameters.adoc[]
+==== 응답
+include::{snippets}/schedule-delete/http-response.adoc[]

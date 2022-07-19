@@ -75,7 +75,6 @@ public class StudentDocTest extends ControllerTest {
 
         mockMvc.perform(post("/students")
                         .contentType(APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(student))
                 )
                 .andDo(print())
@@ -160,7 +159,6 @@ public class StudentDocTest extends ControllerTest {
 
         mockMvc.perform(patch("/students/{studentId}", student.getId())
                         .contentType(APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(studentEdit))
                 )
                 .andDo(print())
@@ -192,8 +190,7 @@ public class StudentDocTest extends ControllerTest {
                 .build();
         studentRepository.save(student);
 
-        mockMvc.perform(delete("/students/{studentId}", student.getId())
-                        .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/students/{studentId}", student.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("student-delete",

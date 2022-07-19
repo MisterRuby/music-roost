@@ -27,8 +27,4 @@ public class ScheduleRegister {
         this.studentId = studentId;
         this.time = time;
     }
-
-    public LocalDateTime getParseTime() {
-        return LocalDateTime.parse(this.time, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-    }
 }

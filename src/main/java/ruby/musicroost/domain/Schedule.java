@@ -66,5 +66,9 @@ public class Schedule {
                 .time(this.time);
     }
 
+    public static LocalDateTime parseTime(String timeStr) {
+        return LocalDateTime.parse(timeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
+
     /** 유틸리티 메서드 end */
 }

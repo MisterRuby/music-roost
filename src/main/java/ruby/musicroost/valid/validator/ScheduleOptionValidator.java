@@ -1,6 +1,5 @@
 package ruby.musicroost.valid.validator;
 
-import ruby.musicroost.domain.enums.Grade;
 import ruby.musicroost.request.schedule.enums.ScheduleOption;
 import ruby.musicroost.valid.ScheduleOptionPattern;
 
@@ -22,7 +21,7 @@ public class ScheduleOptionValidator implements ConstraintValidator<ScheduleOpti
      * 스케쥴 검색 옵션 정규표현식 생성
      * @return
      */
-    private String getRegexpOption() {
+    public static String getRegexpOption() {
         ScheduleOption[] options = ScheduleOption.values();
         StringBuilder builder = new StringBuilder();
         for (ScheduleOption option : options) {

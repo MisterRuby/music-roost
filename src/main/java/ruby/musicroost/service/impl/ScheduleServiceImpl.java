@@ -22,6 +22,8 @@ import ruby.musicroost.request.schedule.ScheduleSearch;
 import ruby.musicroost.request.schedule.enums.ScheduleOption;
 import ruby.musicroost.service.ScheduleService;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.lang.Math.max;
@@ -49,7 +51,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule schedule = Schedule.builder()
                 .student(student)
                 .teacher(teacher)
-                .time(scheduleRegister.getParseTime())
+                .time(Schedule.parseTime(scheduleRegister.getTime()))
                 .build();
 
         if (!schedule.isPracticable()) throw new ScheduleDifferentCourseException();
@@ -84,7 +86,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         ScheduleEditor scheduleEditor = schedule.toEditor()
                 .teacher(teacher)
-                .time(scheduleEdit.getParseTime())
+                .time(Schedule.parseTime(scheduleEdit.getTime()))
                 .build();
 
         schedule.edit(scheduleEditor);
