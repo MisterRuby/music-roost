@@ -606,14 +606,14 @@ Host: music-roost.com
 <td class="tableblock halign-left valign-top"><p class="tableblock">course</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수강과목</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL /</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">grade</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수강등급</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BEGINNER / INTERMEDIATE / ADVANCED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BEGINNER / INTERMEDIATE / ADVANCED /</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
@@ -623,7 +623,17 @@ Host: music-roost.com
 <h4 id="_응답"><a class="link" href="#_응답">응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -658,20 +668,20 @@ Host: music-roost.com</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">course</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수강과목</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL /</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">grade</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수강등급</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BEGINNER / INTERMEDIATE / ADVANCED</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BEGINNER / INTERMEDIATE / ADVANCED /</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">page</p></td>
@@ -687,10 +697,20 @@ Host: music-roost.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
 Content-Length: 1456
 
-[{"id":24,"name":"ruby14","email":"14rubykim0723@gmail.com","phoneNumber":"010-1114-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"},{"id":23,"name":"ruby13","email":"13rubykim0723@gmail.com","phoneNumber":"010-1113-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"},{"id":22,"name":"ruby12","email":"12rubykim0723@gmail.com","phoneNumber":"010-1112-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"},{"id":21,"name":"ruby11","email":"11rubykim0723@gmail.com","phoneNumber":"010-1111-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"},{"id":20,"name":"ruby10","email":"10rubykim0723@gmail.com","phoneNumber":"010-1110-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"},{"id":19,"name":"ruby9","email":"9rubykim0723@gmail.com","phoneNumber":"010-119-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"},{"id":18,"name":"ruby8","email":"8rubykim0723@gmail.com","phoneNumber":"010-118-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"},{"id":17,"name":"ruby7","email":"7rubykim0723@gmail.com","phoneNumber":"010-117-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"},{"id":16,"name":"ruby6","email":"6rubykim0723@gmail.com","phoneNumber":"010-116-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"},{"id":15,"name":"ruby5","email":"5rubykim0723@gmail.com","phoneNumber":"010-115-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"}]</code></pre>
+[{"id":24,"name":"ruby14","email":"14rubykim0723@gmail.com","phoneNumber":"010-1114-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"},{"id":23,"name":"ruby13","email":"13rubykim0723@gmail.com","phoneNumber":"010-1113-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"},{"id":22,"name":"ruby12","email":"12rubykim0723@gmail.com","phoneNumber":"010-1112-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"},{"id":21,"name":"ruby11","email":"11rubykim0723@gmail.com","phoneNumber":"010-1111-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"},{"id":20,"name":"ruby10","email":"10rubykim0723@gmail.com","phoneNumber":"010-1110-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"},{"id":19,"name":"ruby9","email":"9rubykim0723@gmail.com","phoneNumber":"010-119-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"},{"id":18,"name":"ruby8","email":"8rubykim0723@gmail.com","phoneNumber":"010-118-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"},{"id":17,"name":"ruby7","email":"7rubykim0723@gmail.com","phoneNumber":"010-117-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"},{"id":16,"name":"ruby6","email":"6rubykim0723@gmail.com","phoneNumber":"010-116-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"},{"id":15,"name":"ruby5","email":"5rubykim0723@gmail.com","phoneNumber":"010-115-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"}]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -782,10 +802,20 @@ Host: music-roost.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
 Content-Length: 141
 
-{"id":8,"name":"ruby","email":"rubykim0723@gmail.com","phoneNumber":"010-1111-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-19"}</code></pre>
+{"id":8,"name":"ruby","email":"rubykim0723@gmail.com","phoneNumber":"010-1111-2222","course":"FLUTE","grade":"BEGINNER","since":"2022-07-21"}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -898,14 +928,14 @@ Host: music-roost.com
 <td class="tableblock halign-left valign-top"><p class="tableblock">course</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수강과목</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL /</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">grade</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수강등급</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">BEGINNER / INTERMEDIATE / ADVANCED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BEGINNER / INTERMEDIATE / ADVANCED /</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
@@ -915,7 +945,17 @@ Host: music-roost.com
 <h4 id="_응답_4"><a class="link" href="#_응답_4">응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -954,7 +994,17 @@ Host: music-roost.com</code></pre>
 <h4 id="_응답_5"><a class="link" href="#_응답_5">응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -1021,7 +1071,7 @@ Host: music-roost.com
 <td class="tableblock halign-left valign-top"><p class="tableblock">course</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수강과목</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL /</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
@@ -1031,7 +1081,17 @@ Host: music-roost.com
 <h4 id="_응답_6"><a class="link" href="#_응답_6">응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -1066,14 +1126,14 @@ Host: music-roost.com</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">course</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수강과목</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL /</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">page</p></td>
@@ -1089,10 +1149,20 @@ Host: music-roost.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
 Content-Length: 1256
 
-[{"id":24,"name":"teacher14","email":"14teacher@gmail.com","phoneNumber":"010-1114-2222","course":"FLUTE","since":"2022-07-19"},{"id":23,"name":"teacher13","email":"13teacher@gmail.com","phoneNumber":"010-1113-2222","course":"FLUTE","since":"2022-07-19"},{"id":22,"name":"teacher12","email":"12teacher@gmail.com","phoneNumber":"010-1112-2222","course":"FLUTE","since":"2022-07-19"},{"id":21,"name":"teacher11","email":"11teacher@gmail.com","phoneNumber":"010-1111-2222","course":"FLUTE","since":"2022-07-19"},{"id":20,"name":"teacher10","email":"10teacher@gmail.com","phoneNumber":"010-1110-2222","course":"FLUTE","since":"2022-07-19"},{"id":19,"name":"teacher9","email":"9teacher@gmail.com","phoneNumber":"010-119-2222","course":"FLUTE","since":"2022-07-19"},{"id":18,"name":"teacher8","email":"8teacher@gmail.com","phoneNumber":"010-118-2222","course":"FLUTE","since":"2022-07-19"},{"id":17,"name":"teacher7","email":"7teacher@gmail.com","phoneNumber":"010-117-2222","course":"FLUTE","since":"2022-07-19"},{"id":16,"name":"teacher6","email":"6teacher@gmail.com","phoneNumber":"010-116-2222","course":"FLUTE","since":"2022-07-19"},{"id":15,"name":"teacher5","email":"5teacher@gmail.com","phoneNumber":"010-115-2222","course":"FLUTE","since":"2022-07-19"}]</code></pre>
+[{"id":24,"name":"teacher14","email":"14teacher@gmail.com","phoneNumber":"010-1114-2222","course":"FLUTE","since":"2022-07-21"},{"id":23,"name":"teacher13","email":"13teacher@gmail.com","phoneNumber":"010-1113-2222","course":"FLUTE","since":"2022-07-21"},{"id":22,"name":"teacher12","email":"12teacher@gmail.com","phoneNumber":"010-1112-2222","course":"FLUTE","since":"2022-07-21"},{"id":21,"name":"teacher11","email":"11teacher@gmail.com","phoneNumber":"010-1111-2222","course":"FLUTE","since":"2022-07-21"},{"id":20,"name":"teacher10","email":"10teacher@gmail.com","phoneNumber":"010-1110-2222","course":"FLUTE","since":"2022-07-21"},{"id":19,"name":"teacher9","email":"9teacher@gmail.com","phoneNumber":"010-119-2222","course":"FLUTE","since":"2022-07-21"},{"id":18,"name":"teacher8","email":"8teacher@gmail.com","phoneNumber":"010-118-2222","course":"FLUTE","since":"2022-07-21"},{"id":17,"name":"teacher7","email":"7teacher@gmail.com","phoneNumber":"010-117-2222","course":"FLUTE","since":"2022-07-21"},{"id":16,"name":"teacher6","email":"6teacher@gmail.com","phoneNumber":"010-116-2222","course":"FLUTE","since":"2022-07-21"},{"id":15,"name":"teacher5","email":"5teacher@gmail.com","phoneNumber":"010-115-2222","course":"FLUTE","since":"2022-07-21"}]</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1179,10 +1249,20 @@ Host: music-roost.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
 Content-Length: 125
 
-{"id":9,"name":"teacher","email":"rubykim0723@gmail.com","phoneNumber":"010-1111-2222","course":"VIOLA","since":"2022-07-19"}</code></pre>
+{"id":9,"name":"teacher","email":"rubykim0723@gmail.com","phoneNumber":"010-1111-2222","course":"VIOLA","since":"2022-07-21"}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1290,7 +1370,7 @@ Host: music-roost.com
 <td class="tableblock halign-left valign-top"><p class="tableblock">course</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">수강과목</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PIANO / VIOLIN / VIOLA / FLUTE / CLARINET / VOCAL /</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
@@ -1300,7 +1380,17 @@ Host: music-roost.com
 <h4 id="_응답_9"><a class="link" href="#_응답_9">응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -1339,7 +1429,17 @@ Host: music-roost.com</code></pre>
 <h4 id="_응답_10"><a class="link" href="#_응답_10">응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -1409,7 +1509,17 @@ Host: music-roost.com
 <h4 id="_응답_11"><a class="link" href="#_응답_11">응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -1443,15 +1553,15 @@ Host: music-roost.com</code></pre>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">option</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">수강과목</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">검색종류</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">STUDENT_NAME / TEACHER_NAME</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">page</p></td>
@@ -1467,7 +1577,17 @@ Host: music-roost.com</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY
 Content-Length: 1104
 
 [{"id":12,"time":"2022-07-17 20:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"},{"id":11,"time":"2022-07-17 19:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"},{"id":10,"time":"2022-07-17 18:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"},{"id":9,"time":"2022-07-17 17:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"},{"id":8,"time":"2022-07-17 16:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"},{"id":7,"time":"2022-07-17 15:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"},{"id":6,"time":"2022-07-17 14:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"},{"id":5,"time":"2022-07-17 13:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"},{"id":4,"time":"2022-07-17 12:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"},{"id":3,"time":"2022-07-17 11:00","studentId":2,"studentName":"ruby0","teacherId":2,"teacherName":"teacher0"}]</code></pre>
@@ -1574,7 +1694,17 @@ Host: music-roost.com
 <h4 id="_응답_13"><a class="link" href="#_응답_13">응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -1613,7 +1743,17 @@ Host: music-roost.com</code></pre>
 <h4 id="_응답_14"><a class="link" href="#_응답_14">응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>

@@ -342,7 +342,7 @@ class StudentControllerTest extends ControllerTest {
                 .andExpect(jsonPath("$[0].grade").value(students.get(4).getGrade().name()))
                 .andExpect(jsonPath("$[0].since").value(students.get(4).getSince().format(DateTimeFormatter.ISO_LOCAL_DATE)))
                 .andDo(print());
-   }
+    }
 
     @Test
     @DisplayName("수강생 목록 수강 과목 조회시 페이지 번호 없이 조회 - 첫 페이지 조회")

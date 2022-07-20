@@ -1,20 +1,11 @@
 package ruby.musicroost.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.MockMvc;
 import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.enums.Course;
 import ruby.musicroost.exception.teacher.TeacherNotFoundException;
-import ruby.musicroost.repository.ScheduleRepository;
-import ruby.musicroost.repository.StudentRepository;
-import ruby.musicroost.repository.TeacherRepository;
 import ruby.musicroost.request.teacher.TeacherEdit;
 import ruby.musicroost.request.teacher.TeacherRegister;
 import ruby.musicroost.valid.CoursePattern;
@@ -260,23 +251,6 @@ class TeacherControllerTest extends ControllerTest{
                 .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
                 .andExpect(jsonPath("$.validation.course").value(CoursePattern.MESSAGE))
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("선생님 목록 잘못된 이름으로 조회")
-    void getListByWrongName() throws Exception {
-        getTeachers();
-
-        mockMvc.perform(get("/teachers")
-                        .param("course", Course.FLUTE.name())
-                        .param("name", "!@#")
-                        .param("page", "1")
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
-                .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
-                .andExpect(jsonPath("$.validation.name").value(NamePattern.MESSAGE))
                 .andDo(print());
     }
 

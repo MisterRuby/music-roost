@@ -33,6 +33,8 @@ public class TeacherDocTest extends ControllerTest {
     @Test
     @DisplayName("선생님 정보 등록")
     void register() throws Exception {
+        System.out.println("ASdasd");
+
         TeacherRegister teacher = TeacherRegister.builder()
                 .name("teacher")
                 .email("rubykim0723@gmail.com")
@@ -82,8 +84,8 @@ public class TeacherDocTest extends ControllerTest {
                 .andDo(document("teacher-inquiryList",
                         requestParameters(
                                 parameterWithName("course").description("수강과목")
-                                        .attributes(key("constraint").value(getCourseConstraintString())),
-                                parameterWithName("name").description("이름"),
+                                        .attributes(key("constraint").value(getCourseConstraintString())).optional(),
+                                parameterWithName("name").description("이름").optional(),
                                 parameterWithName("page").description("페이지").optional()
                         ),
                         responseFields(

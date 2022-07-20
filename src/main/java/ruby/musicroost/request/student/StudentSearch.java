@@ -2,18 +2,16 @@ package ruby.musicroost.request.student;
 
 import lombok.Getter;
 import lombok.Setter;
-import ruby.musicroost.valid.CoursePattern;
-import ruby.musicroost.valid.GradePattern;
-import ruby.musicroost.valid.NamePattern;
+import ruby.musicroost.valid.CourseSearchPattern;
+import ruby.musicroost.valid.GradeSearchPattern;
 
 @Getter @Setter
 public class StudentSearch {
 
-    @CoursePattern
+    @CourseSearchPattern
     private String course;
-    @GradePattern
+    @GradeSearchPattern
     private String grade;
-    @NamePattern
     private String name;
     private int page = 1;
 }

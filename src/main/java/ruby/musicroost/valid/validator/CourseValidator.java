@@ -27,6 +27,6 @@ public class CourseValidator implements ConstraintValidator<CoursePattern, Strin
         for (Course course : courses) {
             builder.append(course.name()).append("|");
         }
-        return builder.substring(0, builder.length() - 1);
+        return builder.substring(0, builder.length());
     }
 }

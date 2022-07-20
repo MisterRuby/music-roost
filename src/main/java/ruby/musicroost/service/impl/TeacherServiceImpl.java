@@ -43,7 +43,7 @@ public class TeacherServiceImpl implements TeacherService {
     public List<Teacher> getList(TeacherSearch search) {
         Pageable pageable = PageRequest.of(max(0, search.getPage() - 1), 10);
         return teacherRepository.findByCourseAndNameContains
-                (Course.valueOf(search.getCourse()), search.getName(), pageable);
+                (Course.parseCourse(search.getCourse()), search.getName(), pageable);
     }
 
     /**

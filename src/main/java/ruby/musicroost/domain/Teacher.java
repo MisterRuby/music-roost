@@ -1,9 +1,6 @@
 package ruby.musicroost.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ruby.musicroost.domain.editor.TeacherEditor;
@@ -17,6 +14,7 @@ import static ruby.musicroost.domain.editor.TeacherEditor.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(value = AuditingEntityListener.class)
+@EqualsAndHashCode(of = "id")
 @Getter
 public class Teacher {
 

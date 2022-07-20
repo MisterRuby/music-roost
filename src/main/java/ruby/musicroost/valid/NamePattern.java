@@ -16,6 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = NameValidator.class)
 @Documented
 public @interface NamePattern {
+
     String MESSAGE = "이름은 2~20자 한글, 영문 대소문자, 숫자만 입력할 수 있습니다.";
 
     String message() default MESSAGE;

@@ -27,6 +27,6 @@ public class GradeValidator implements ConstraintValidator<GradePattern, String>
         for (Grade grade : grades) {
             builder.append(grade.name()).append("|");
         }
-        return builder.substring(0, builder.length() - 1);
+        return builder.substring(0, builder.length());
     }
 }

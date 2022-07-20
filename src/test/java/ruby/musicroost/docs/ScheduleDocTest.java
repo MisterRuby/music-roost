@@ -84,9 +84,9 @@ public class ScheduleDocTest extends ControllerTest {
                 .andExpect(status().isOk())
                 .andDo(document("schedule-inquiryList",
                         requestParameters(
-                                parameterWithName("option").description("수강과목")
-                                        .attributes(key("constraint").value(getScheduleOptionConstraintString())),
-                                parameterWithName("name").description("이름"),
+                                parameterWithName("option").description("검색종류")
+                                        .attributes(key("constraint").value(getScheduleOptionConstraintString())).optional(),
+                                parameterWithName("name").description("이름").optional(),
                                 parameterWithName("page").description("페이지").optional()
                         ),
                         responseFields(

@@ -58,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getList(StudentSearch search) {
         Pageable pageable = PageRequest.of(max(0, search.getPage() - 1), 10);
         return studentRepository.findByCourseAndGradeAndNameContains
-                (Course.valueOf(search.getCourse()), Grade.valueOf(search.getGrade()), search.getName(), pageable);
+                (Course.parseCourse(search.getCourse()), Grade.parseGrade(search.getGrade()), search.getName(), pageable);
     }
 
     /**

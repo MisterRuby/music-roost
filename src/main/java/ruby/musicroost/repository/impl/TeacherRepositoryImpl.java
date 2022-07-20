@@ -1,6 +1,7 @@
 package ruby.musicroost.repository.impl;
 
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +42,9 @@ public class TeacherRepositoryImpl implements TeacherRepositoryCustom {
      * @return
      */
     private Predicate searchCondition(Course course, String name) {
-        return teacher.course.eq(course).and(teacher.name.contains(name));
+        if (name == null) name = "";
+        BooleanExpression condition = teacher.name.contains(name);
+        if (course != null) condition = condition.and(teacher.course.eq(course));
+        return condition;
     }
 }

@@ -120,10 +120,10 @@ public class StudentDocTest extends ControllerTest {
                 .andDo(document("student-inquiryList",
                         requestParameters(
                                 parameterWithName("course").description("수강과목")
-                                        .attributes(key("constraint").value(getCourseConstraintString())),
+                                        .attributes(key("constraint").value(getCourseConstraintString())).optional(),
                                 parameterWithName("grade").description("수강등급")
-                                        .attributes(key("constraint").value(getGradeConstraintString())),
-                                parameterWithName("name").description("이름"),
+                                        .attributes(key("constraint").value(getGradeConstraintString())).optional(),
+                                parameterWithName("name").description("이름").optional(),
                                 parameterWithName("page").description("페이지").optional()
                         ),
                         responseFields(

@@ -291,23 +291,6 @@ class ScheduleControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("스케쥴 목록 잘못된 이름으로 검색")
-    void getListSchedulesByWrongName() throws Exception {
-        getSchedules();
-
-        mockMvc.perform(get("/schedules")
-                        .param("option", ScheduleOption.STUDENT_NAME.name())
-                        .param("name", "ruby!@#")
-                        .param("page", "1")
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
-                .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
-                .andExpect(jsonPath("$.validation.name").value(NamePattern.MESSAGE))
-                .andDo(print());
-    }
-
-    @Test
     @DisplayName("스케쥴 목록 1 페이지 미만으로 검색 시 1페이지 검색")
     void getListSchedulesByUnderPage() throws Exception {
         getSchedules();

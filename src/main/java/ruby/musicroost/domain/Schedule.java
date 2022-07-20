@@ -1,9 +1,6 @@
 package ruby.musicroost.domain;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ruby.musicroost.domain.editor.ScheduleEditor;
 
 import javax.persistence.*;
@@ -15,6 +12,7 @@ import static ruby.musicroost.domain.editor.ScheduleEditor.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(of = "id")
 @Getter
 public class Schedule {
 

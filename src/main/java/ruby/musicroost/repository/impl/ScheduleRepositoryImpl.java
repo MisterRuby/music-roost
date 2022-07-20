@@ -61,10 +61,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
      * @return
      */
     private Predicate searchCondition(ScheduleOption option, String name) {
+        if (name == null) name = "";
         if (option.equals(ScheduleOption.STUDENT_NAME)) return student.name.contains(name);
-
         return teacher.name.contains(name);
     }
-
-
 }

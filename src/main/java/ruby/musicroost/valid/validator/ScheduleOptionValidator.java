@@ -12,6 +12,7 @@ public class ScheduleOptionValidator implements ConstraintValidator<ScheduleOpti
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value == null || value.isEmpty()) return true;
         Pattern pattern = Pattern.compile(getRegexpOption());
         Matcher matcher = pattern.matcher(value);
         return matcher.matches();
