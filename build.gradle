@@ -44,6 +44,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     // h2
     runtimeOnly 'com.h2database:h2'
+    // postgresql
+    runtimeOnly 'org.postgresql:postgresql'
     // modelMapper
     implementation 'org.modelmapper:modelmapper:3.1.0'
     // rest docs
@@ -52,9 +54,12 @@ dependencies {
     // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
     /* OAuth2 */
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
 }
 
 tasks.named('test') {

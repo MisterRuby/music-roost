@@ -76,6 +76,7 @@ public class StudentServiceImpl implements StudentService {
                 .phoneNumber(studentEdit.getPhoneNumber())
                 .email(studentEdit.getEmail())
                 .course(Course.valueOf(studentEdit.getCourse()))
+                .grade(Grade.valueOf(studentEdit.getGrade()))
                 .build();
 
         student.edit(studentEditor);

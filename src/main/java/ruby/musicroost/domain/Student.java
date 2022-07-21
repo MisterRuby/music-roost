@@ -52,6 +52,7 @@ public class Student {
         this.email = editor.getEmail();
         this.phoneNumber = editor.getPhoneNumber();
         this.course = editor.getCourse();
+        this.grade = editor.getGrade();
     }
 
     /** 비즈니스 메서드 end */
@@ -64,7 +65,8 @@ public class Student {
                 .name(this.name)
                 .email(this.email)
                 .phoneNumber(this.phoneNumber)
-                .course(this.course);
+                .course(this.course)
+                .grade(this.grade);
     }
 
     /** 유틸리티 메서드 end */

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ruby.musicroost.domain.enums.AccountRole;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -30,11 +31,19 @@ public class Account {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(value = EnumType.STRING)
-    private Set<AccountRole> roles;
+    private Set<AccountRole> roles = new HashSet<>();
 
     @Builder
-    public Account(String name, String password, Set<AccountRole> roles) {
+    public Account(String name, String password) {
         this.name = name;
         this.password = password;
+    }
+
+    public void addRole(AccountRole role) {
+        this.roles.add(role);
+    }
+
+    public boolean isWaiting() {
+        return this.roles.isEmpty() || (this.roles.size() == 1 && this.roles.contains(AccountRole.WAITING));
     }
 }

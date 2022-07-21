@@ -1,14 +1,21 @@
 package ruby.musicroost.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ruby.musicroost.security.UserAccount;
 import ruby.musicroost.domain.Account;
+import ruby.musicroost.domain.enums.AccountRole;
 import ruby.musicroost.repository.AccountRepository;
+
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * DB 에서 유저 정보를 조회하여 인증처리
@@ -32,13 +39,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         Account account = accountRepository.findByName(name)
                 .orElseThrow(() -> new UsernameNotFoundException(name));
-
-        return new UserAccount(account);
+        return new User(account.getName(), account.getPassword(), authorities(account.getRoles()));
     }
 
-//    private Collection<? extends GrantedAuthority> authorities(Set<AccountRole> roles) {
-//        return roles.stream()
-//                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
-//                .collect(Collectors.toSet());
-//    }
+    private Collection<? extends GrantedAuthority> authorities(Set<AccountRole> roles) {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
+                .collect(Collectors.toSet());
+    }
 }

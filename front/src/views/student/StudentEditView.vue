@@ -1,13 +1,14 @@
 
 <template>
-  <div class="d-flex flex-column w-50">
-    <el-input v-model="student.name" class="mb-2" type="text" placeholder="이름을 입력해주세요."
+  <el-container class="d-flex flex-column align-items-center w-100 h-100 pt-5">
+    <h2>수강생 정보 수정</h2>
+    <el-input v-model="student.name" class="mb-2 w-50" type="text" placeholder="이름을 입력해주세요."
               pattern="^[가-힣a-zA-Z\d]{2,20}$" required/>
-    <el-input v-model="student.email" class="mb-2" type="email" placeholder="이메일을 입력해주세요."
+    <el-input v-model="student.email" class="mb-2 w-50" type="email" placeholder="이메일을 입력해주세요."
               pattern="^[a-zA-Z\d_!#$%&'\*+/=?{|}~^.-]+@[a-zA-Z\d.-]+$" required/>
-    <el-input v-model="student.phoneNumber" class="mb-2" type="tel" placeholder="핸드폰 번호를 입력해주세요."
+    <el-input v-model="student.phoneNumber" class="mb-2 w-50" type="tel" placeholder="핸드폰 번호를 입력해주세요."
               pattern="^(010|011|016|017|019)-\d{3,4}-\d{4}$" required/>
-    <el-select v-model="student.course" class="mb-2" placeholder="수강 과목을 선택해주세요.">
+    <el-select v-model="student.course" class="mb-2 w-50" placeholder="수강 과목을 선택해주세요.">
       <el-option
           v-for="course in courseGroup"
           :key="course.value"
@@ -15,15 +16,18 @@
           :value="course.value"
       />
     </el-select>
-    <el-select v-model="student.grade" class="mb-2" placeholder="수강 등급을 선택해주세요.">
+    <el-select v-model="student.grade" class="mb-2 w-50" placeholder="수강 등급을 선택해주세요.">
       <el-option v-for="grade in gradeGroup"
           :key="grade.value"
           :label="grade.label"
           :value="grade.value"
       />
     </el-select>
-    <el-button type="primary" @click="edit()">회원 정보 수정</el-button>
-  </div>
+    <el-container>
+      <el-button type="primary" class="mb-2" @click="edit()">회원 정보 수정</el-button>
+      <el-button type="danger" @click="deleteStudent()">회원 정보 삭제</el-button>
+    </el-container>
+  </el-container>
 </template>
 
 <script setup lang="ts">
@@ -94,10 +98,16 @@ onMounted(() => {
       .then(res => {
             student.value = res.data;
           }
-      )
+      ).catch(err => {
+        const result = err.response.data;
+        alert(result.message);
+      });
 })
 
 const edit = () => {
+  const check = confirm("해당 수강생의 정보를 수정하시겠습니까?");
+  if (!check) return;
+
   axios.patch(`/api/students/${props.studentId}`, {
     name: student.value.name,
     email : student.value.email,
@@ -105,8 +115,21 @@ const edit = () => {
     course : student.value.course,
     grade : student.value.grade,
   }).then(() => {
-    router.replace({name: "studentInfo", params:{studentId: student.value.id}})
-  })
+    router.replace({name: "students"})
+  }).catch(err => {
+    const result = err.response.data;
+    alert(result.message);
+  });
+}
+
+const deleteStudent = () => {
+  const check = confirm("해당 수강생의 정보를 삭제하시겠습니까?");
+  if (!check) return;
+
+  axios.delete(`/api/students/${props.studentId}`)
+      .then(() => {
+        router.replace({name: "students"})
+      })
 }
 
 </script>

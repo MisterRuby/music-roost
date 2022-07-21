@@ -1,13 +1,14 @@
 
 <template>
-  <div class="d-flex flex-column w-50">
-    <el-input v-model="name" class="mb-2" type="text" placeholder="이름을 입력해주세요."
+  <el-container class="d-flex flex-column align-items-center w-100 h-100 pt-5">
+    <h2>수강생 등록</h2>
+    <el-input v-model="name" class="mb-2 w-50" type="text" placeholder="이름을 입력해주세요."
               pattern="^[가-힣a-zA-Z\d]{2,20}$" required/>
-    <el-input v-model="email" class="mb-2" type="email" placeholder="이메일을 입력해주세요."
+    <el-input v-model="email" class="mb-2 w-50" type="email" placeholder="이메일을 입력해주세요."
               pattern="^[a-zA-Z\d_!#$%&'\*+/=?{|}~^.-]+@[a-zA-Z\d.-]+$" required/>
-    <el-input v-model="phoneNumber" class="mb-2" type="tel" placeholder="핸드폰 번호를 입력해주세요."
+    <el-input v-model="phoneNumber" class="mb-2 w-50" type="tel" placeholder="핸드폰 번호를 입력해주세요."
               pattern="^(010|011|016|017|019)-\d{3,4}-\d{4}$" required/>
-    <el-select v-model="course" class="mb-2" placeholder="수강 과목을 선택해주세요.">
+    <el-select v-model="course" class="mb-2 w-50" placeholder="수강 과목을 선택해주세요.">
       <el-option
           v-for="course in courseGroup"
           :key="course.value"
@@ -15,15 +16,15 @@
           :value="course.value"
       />
     </el-select>
-    <el-select v-model="grade" class="mb-2" placeholder="수강 등급을 선택해주세요.">
+    <el-select v-model="grade" class="mb-2 w-50" placeholder="수강 등급을 선택해주세요.">
       <el-option v-for="grade in gradeGroup"
           :key="grade.value"
           :label="grade.label"
           :value="grade.value"
       />
     </el-select>
-    <el-button type="primary" @click="register()">수강생 등록</el-button>
-  </div>
+    <el-button type="primary" class="w-50" @click="register()">수강생 등록</el-button>
+  </el-container>
 </template>
 
 <script setup lang="ts">
@@ -88,7 +89,10 @@ const register = () => {
     grade : grade.value,
   }).then(() => {
     router.replace({name: "students"})
-  })
+  }).catch(err => {
+    const result = err.response.data;
+    alert(result.message);
+  });
 }
 
 </script>

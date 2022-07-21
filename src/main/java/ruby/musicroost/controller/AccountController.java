@@ -1,13 +1,14 @@
 package ruby.musicroost.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import ruby.musicroost.domain.Account;
 import ruby.musicroost.request.account.AccountSignUp;
 import ruby.musicroost.service.AccountService;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class AccountController {
@@ -19,10 +20,22 @@ public class AccountController {
         return "ok";
     }
 
+    /**
+     * 계정 등록
+     * @param accountSignUp
+     */
     @PostMapping("/signUp")
-    public String signUp(@RequestBody AccountSignUp accountSignUp) {
-        Account account = accountService.signUp(accountSignUp.getName(), accountSignUp.getPassword());
-        log.info("name={} / password={}", account.getName(), account.getPassword());
-        return "ok";
+    public void signUp( @RequestBody AccountSignUp accountSignUp) {
+        accountService.signUp(accountSignUp.getName(), accountSignUp.getPassword());
+    }
+
+    /**
+     * 로그인
+     * @param accountSignUp
+     * @return
+     */
+    @PostMapping("/login")
+    public void login(@RequestBody AccountSignUp accountSignUp) {
+        accountService.login(accountSignUp.getName(), accountSignUp.getPassword());
     }
 }
