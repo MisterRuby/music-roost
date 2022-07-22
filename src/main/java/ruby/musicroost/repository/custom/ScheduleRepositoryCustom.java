@@ -2,8 +2,10 @@ package ruby.musicroost.repository.custom;
 
 import org.springframework.data.domain.Pageable;
 import ruby.musicroost.domain.Schedule;
+import ruby.musicroost.domain.Student;
 import ruby.musicroost.request.schedule.enums.ScheduleOption;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,4 +26,7 @@ public interface ScheduleRepositoryCustom{
      * @return
      */
     Optional<Schedule> findByIdFetchTeacher(Long scheduleId);
+
+
+    boolean existsByStudentAndTime(Student student, LocalDateTime time);
 }

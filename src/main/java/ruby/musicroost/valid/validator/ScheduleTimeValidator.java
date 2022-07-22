@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class ScheduleTimeValidator implements ConstraintValidator<ScheduleTimePattern, String> {
 
-    private static final String TIME_REGEXP = "\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12]\\d|3[01]) (1\\d|2[0-3]):([0-5]\\d)";
+    private static final String TIME_REGEXP = "\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12]\\d|3[01]) ([01]\\d|2[0-3]):([0-5]\\d)";
 
 
     @Override

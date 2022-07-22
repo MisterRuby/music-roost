@@ -11,6 +11,7 @@ import ruby.musicroost.domain.Teacher;
 import ruby.musicroost.domain.editor.ScheduleEditor;
 import ruby.musicroost.exception.schedule.ScheduleDifferentCourseException;
 import ruby.musicroost.exception.schedule.ScheduleNotFoundException;
+import ruby.musicroost.exception.schedule.ScheduleTimeOverlapException;
 import ruby.musicroost.exception.student.StudentNotFoundException;
 import ruby.musicroost.exception.teacher.TeacherNotFoundException;
 import ruby.musicroost.repository.ScheduleRepository;
@@ -54,6 +55,10 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .time(Schedule.parseTime(scheduleRegister.getTime()))
                 .build();
 
+        // 기존에 등록된 스케쥴 중에서 등록하려는 스케쥴과 1시간 이내로 겹치는 스케쥴이 있는지 체크
+        boolean exists = scheduleRepository.existsByStudentAndTime(student, schedule.getTime());
+        if (exists) throw new ScheduleTimeOverlapException();
+
         if (!schedule.isPracticable()) throw new ScheduleDifferentCourseException();
 
         scheduleRepository.save(schedule);
@@ -68,6 +73,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional(readOnly = true)
     public List<Schedule> getList(ScheduleSearch search) {
         Pageable pageable = PageRequest.of(max(0, search.getPage() - 1), 10);
+        if (search.isOptionEmpty()) search.setOption(ScheduleOption.STUDENT_NAME.name());
+
         return scheduleRepository.findByNameContains(ScheduleOption.valueOf(search.getOption()), search.getName(), pageable);
     }
 

@@ -5,9 +5,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import ruby.musicroost.domain.Schedule;
+import ruby.musicroost.domain.Student;
 import ruby.musicroost.repository.custom.ScheduleRepositoryCustom;
 import ruby.musicroost.request.schedule.enums.ScheduleOption;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +37,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
                 .where(searchCondition(option, name))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
-                .orderBy(schedule.id.desc())
+                .orderBy(schedule.time.desc())
                 .fetch();
     }
 
@@ -54,6 +56,18 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
         return Optional.ofNullable(findSchedule);
     }
 
+    @Override
+    public boolean existsByStudentAndTime(Student student, LocalDateTime time) {
+        return jpaQueryFactory.selectFrom(schedule)
+                .where(schedule.student.eq(student)
+                        .and(schedule.time.between(
+                                time.minusHours(1).plusMinutes(1), time.plusHours(1).minusMinutes(1)))
+                )
+                .fetchFirst() != null;
+    }
+
+
+
     /**
      * 스케쥴 검색 조건
      * @param option
@@ -64,5 +78,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
         if (name == null) name = "";
         if (option.equals(ScheduleOption.STUDENT_NAME)) return student.name.contains(name);
         return teacher.name.contains(name);
+    }
+
+    private Predicate checkScheduleOverlapTime(LocalDateTime time) {
+        LocalDateTime before = time.minusHours(1);
+        LocalDateTime after = time.plusHours(1);
+
+        return schedule.time.between(before, after);
     }
 }

@@ -25,6 +25,7 @@
     </el-select>
     <el-container>
       <el-button type="primary" class="mb-2" @click="edit()">수정</el-button>
+      <el-button type="warning" @click="moveScheduleRegister()">스케쥴 등록</el-button>
       <el-button type="danger" @click="deleteStudent()">삭제</el-button>
     </el-container>
   </el-container>
@@ -130,6 +131,15 @@ const deleteStudent = () => {
       .then(() => {
         router.replace({name: "students"})
       })
+}
+
+const moveScheduleRegister = () => {
+  router.push({name: "scheduleRegister",
+    params:{
+      course: student.value.course,
+      studentName: student.value.name,
+      studentId: student.value.id
+  }})
 }
 
 </script>

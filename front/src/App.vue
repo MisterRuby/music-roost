@@ -14,4 +14,8 @@ import {RouterView} from "vue-router";</script>
   #app {
     height: 100vh;
   }
+
+  a {
+    text-decoration: none;
+  }
 </style>

@@ -9,7 +9,11 @@ import ruby.musicroost.valid.ScheduleOptionPattern;
 @Getter @Setter
 public class ScheduleSearch {
     @ScheduleOptionPattern
-    private String option = ScheduleOption.STUDENT_NAME.name();
+    private String option;
     private String name;
     private int page = 1;
+
+    public boolean isOptionEmpty() {
+        return this.option == null || this.option.isEmpty();
+    }
 }
