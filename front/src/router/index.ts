@@ -8,6 +8,10 @@ import StudentRegisterView from "../views/student/StudentRegisterView.vue";
 import StudentsView from "../views/student/StudentsView.vue";
 import StudentEditView from "../views/student/StudentEditView.vue";
 
+import TeacherRegisterView from "../views/teacher/TeacherRegisterView.vue";
+import TeachersView from "../views/teacher/TeachersView.vue";
+import TeacherEditView from "../views/teacher/TeacherEditView.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -32,6 +36,7 @@ const router = createRouter({
       name: "main",
       component: MainView,
       children: [
+          // student
         {
           path: "/students/register",
           name: "studentRegister",
@@ -46,6 +51,23 @@ const router = createRouter({
           path: "/students/edit/:studentId",
           name: "studentEdit",
           component: StudentEditView,
+          props: true
+        },
+          // teacher
+        {
+          path: "/teachers/register",
+          name: "teacherRegister",
+          component: TeacherRegisterView,
+        },
+        {
+          path: "/teachers",
+          name: "teachers",
+          component: TeachersView,
+        },
+        {
+          path: "/teachers/edit/:teacherId",
+          name: "teacherEdit",
+          component: TeacherEditView,
           props: true
         },
       ]

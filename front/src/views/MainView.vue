@@ -9,10 +9,10 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="1-1">
-                <RouterLink class="mx-1" to="/students">수강생 조회</RouterLink>
+                <RouterLink class="mx-1" to="/students">조회</RouterLink>
               </el-menu-item>
               <el-menu-item index="1-2">
-                <RouterLink class="mx-1" to="/students/register">수강생 등록</RouterLink>
+                <RouterLink class="mx-1" to="/students/register">등록</RouterLink>
               </el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
@@ -21,8 +21,12 @@
               Teacher
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1">선생님 조회</el-menu-item>
-              <el-menu-item index="2-2">선생님 등록</el-menu-item>
+              <el-menu-item index="2-1">
+                <RouterLink class="mx-1" to="/teachers">조회</RouterLink>
+              </el-menu-item>
+              <el-menu-item index="2-2">
+                <RouterLink class="mx-1" to="/teachers/register">등록</RouterLink>
+              </el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="3">

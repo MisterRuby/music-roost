@@ -15,7 +15,7 @@ import static ruby.musicroost.domain.editor.TeacherEditor.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(value = AuditingEntityListener.class)
 @EqualsAndHashCode(of = "id")
-@Getter
+@Getter @Setter
 public class Teacher {
 
     @Id

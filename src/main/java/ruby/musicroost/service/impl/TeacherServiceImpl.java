@@ -1,6 +1,7 @@
 package ruby.musicroost.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static java.lang.Math.max;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -31,6 +33,7 @@ public class TeacherServiceImpl implements TeacherService {
      */
     @Override
     public void register(Teacher teacher) {
+        log.info("name={}, email={}, phoneNumber={}", teacher.getName(), teacher.getEmail(), teacher.getEmail());
         teacherRepository.save(teacher);
     }
 

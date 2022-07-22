@@ -24,8 +24,8 @@
       />
     </el-select>
     <el-container>
-      <el-button type="primary" class="mb-2" @click="edit()">회원 정보 수정</el-button>
-      <el-button type="danger" @click="deleteStudent()">회원 정보 삭제</el-button>
+      <el-button type="primary" class="mb-2" @click="edit()">수정</el-button>
+      <el-button type="danger" @click="deleteStudent()">삭제</el-button>
     </el-container>
   </el-container>
 </template>
