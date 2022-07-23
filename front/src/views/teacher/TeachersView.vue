@@ -24,9 +24,12 @@
 </template>
 
 <script setup lang="ts">
-  import axios from "axios";
-  import {onMounted, ref} from "vue";
-  import router from "@/router";
+import axios from "axios";
+import {onMounted, ref} from "vue";
+import router from "@/router";
+import {useTeacherStore} from "@/stores/teacher";
+
+const teacherStore = useTeacherStore();
 
   const courseSet = {
     PIANO: "피아노",
@@ -49,7 +52,6 @@
     axios.get(`/api/teachers`, {params: search.value})
         .then(res => {
               res.data.forEach(teacher => {
-                teacher.course = courseSet[teacher.course];
                 teachers.value.push(teacher);
               })
             }
@@ -64,7 +66,8 @@
   })
 
   const moveEdit = teacher => {
-    router.push({name: "teacherEdit", params: {teacherId: teacher.id}})
+    teacherStore.set(teacher);
+    router.push({name: "teacherEdit"})
   }
 </script>
 

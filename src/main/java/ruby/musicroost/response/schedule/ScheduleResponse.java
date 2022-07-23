@@ -17,6 +17,7 @@ public class ScheduleResponse {
     private String studentName;
     private Long teacherId;
     private String teacherName;
+    private String course;
 
     public ScheduleResponse(Schedule schedule) {
         Student student = schedule.getStudent();
@@ -28,5 +29,6 @@ public class ScheduleResponse {
         this.studentName = student.getName();
         this.teacherId = teacher.getId();
         this.teacherName = teacher.getName();
+        this.course = student.getCourse().name();
     }
 }

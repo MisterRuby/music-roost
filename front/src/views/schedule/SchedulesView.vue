@@ -22,9 +22,14 @@
 </template>
 
 <script setup lang="ts">
-  import axios from "axios";
-  import {onMounted, ref} from "vue";
-  import router from "@/router";
+import axios from "axios";
+import {onMounted, ref} from "vue";
+import router from "@/router";
+import {useScheduleStore} from "@/stores/schedule";
+import {useStudentStore} from "@/stores/student";
+
+const studentStore = useStudentStore();
+const scheduleStore = useScheduleStore();
 
   const nameSet = {
     STUDENT_NAME: "수강생",
@@ -58,72 +63,12 @@
   })
 
   const moveEdit = schedule => {
-    router.push({name: "scheduleEdit", params: {scheduleId: schedule.id}})
+    // 수정 페이지에서 필요한 정보를 다시 조회하지 않기 위해 store 에 데이터 저장
+    scheduleStore.set(schedule);
+    router.push({name: "scheduleEdit"});
   }
 </script>
 
 <style scoped>
 
 </style>
-
-
-
-
-
-
-
-<!--<template>-->
-<!--  <el-select v-model="value" class="m-2" placeholder="Select" size="large">-->
-<!--    <el-option-->
-<!--        v-for="item in options"-->
-<!--        :key="item.value"-->
-<!--        :label="item.label"-->
-<!--        :value="item.value"-->
-<!--    />-->
-<!--  </el-select>-->
-<!--  <el-select v-model="value" class="m-2" placeholder="Select">-->
-<!--    <el-option-->
-<!--        v-for="item in options"-->
-<!--        :key="item.value"-->
-<!--        :label="item.label"-->
-<!--        :value="item.value"-->
-<!--    />-->
-<!--  </el-select>-->
-<!--  <el-select v-model="value" class="m-2" placeholder="Select" size="small">-->
-<!--    <el-option-->
-<!--        v-for="item in options"-->
-<!--        :key="item.value"-->
-<!--        :label="item.label"-->
-<!--        :value="item.value"-->
-<!--    />-->
-<!--  </el-select>-->
-<!--</template>-->
-
-<!--<script lang="ts" setup>-->
-<!--import { ref } from 'vue'-->
-
-<!--const value = ref('')-->
-
-<!--const options = [-->
-<!--  {-->
-<!--    value: 'Option1',-->
-<!--    label: 'Option1',-->
-<!--  },-->
-<!--  {-->
-<!--    value: 'Option2',-->
-<!--    label: 'Option2',-->
-<!--  },-->
-<!--  {-->
-<!--    value: 'Option3',-->
-<!--    label: 'Option3',-->
-<!--  },-->
-<!--  {-->
-<!--    value: 'Option4',-->
-<!--    label: 'Option4',-->
-<!--  },-->
-<!--  {-->
-<!--    value: 'Option5',-->
-<!--    label: 'Option5',-->
-<!--  },-->
-<!--]-->
-<!--</script>-->

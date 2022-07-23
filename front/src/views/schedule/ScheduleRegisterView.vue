@@ -2,7 +2,7 @@
 <template>
   <el-container class="d-flex flex-column align-items-center w-100 h-100 pt-5">
     <h2>스케쥴 등록</h2>
-    <el-select v-model="props.course" class="mb-2 w-50" >
+    <el-select v-model="student.course" class="mb-2 w-50" >
       <el-option
           v-for="key in Object.keys(courseSet)"
           :key="key"
@@ -10,7 +10,7 @@
           :value="key"
       />
     </el-select>
-    <el-input v-model="props.studentName" class="mb-2 w-50" type="text" required/>
+    <el-input v-model="student.name" class="mb-2 w-50" type="text" required/>
     <el-select v-model="schedule.teacherId" class="mb-2 w-50" >
       <el-option
           v-for="teacher in teachers"
@@ -35,28 +35,16 @@
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import router from "@/router";
+import {useStudentStore} from "@/stores/student";
+
+const studentStore = useStudentStore();
+const student = ref({...studentStore.getStudent});
 
 interface Teacher {
   id : number | undefined,
   name: string | undefined,
   course: string | undefined
 }
-
-const props = defineProps({
-  course : {
-    type: String,
-    required: true
-  },
-  studentName : {
-    type: String,
-    required: true
-  },
-  studentId : {
-    type: Number,
-    required: true
-  },
-
-});
 
 const now = new Date();
 const selectTime = ref(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 0, 0));
@@ -99,13 +87,13 @@ const register = () => {
 }
 
 onMounted(() => {
-  schedule.value.studentId = props.studentId;
+  schedule.value.studentId = student.value.id;
   axios.get(`/api/teachers`,
       {params: {
-      course: props.course
+      course: student.value.course
     }}).then(res => {
             res.data.forEach((teacher : Teacher)=> {
-              teacher.course = courseSet[teacher.course];
+              // teacher.course = courseSet[teacher.course];
               teachers.value.push(teacher);
             })
           }

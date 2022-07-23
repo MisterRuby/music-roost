@@ -124,7 +124,7 @@ class ScheduleControllerTest extends ControllerTest {
         ScheduleRegister scheduleRegister = ScheduleRegister.builder()
                 .studentId(student.getId())
                 .teacherId(teacher.getId())
-                .time("2022-07-17 09:55")
+                .time("2022-07-17 9:55")
                 .build();
 
         mockMvc.perform(post("/schedules")
@@ -426,7 +426,7 @@ class ScheduleControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("스케쥴 잘못된 시간으로 수정")
+    @DisplayName("스케쥴 잘못된 선생님으로 수정")
     void editScheduleByWrongTeacher() throws Exception {
         Schedule schedule = getSchedule();
         Teacher newTeacher = getViolinTeacher();
@@ -443,28 +443,6 @@ class ScheduleControllerTest extends ControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(jsonPath("$.message").value(ScheduleDifferentCourseException.MESSAGE))
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("스케쥴 잘못된 시간으로 수정")
-    void editScheduleByWrongTime() throws Exception {
-        Schedule schedule = getSchedule();
-        Teacher newTeacher = getFluteTeacher();
-
-        ScheduleEdit scheduleEdit = ScheduleEdit.builder()
-                .teacherId(newTeacher.getId())
-                .time("2022-07-18 09:00")
-                .build();
-
-        mockMvc.perform(patch("/schedules/{scheduleId}", schedule.getId())
-                        .contentType(APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(scheduleEdit))
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
-                .andExpect(jsonPath("$.message").value(BIND_EXCEPTION_MESSAGE))
-                .andExpect(jsonPath("$.validation.time").value(ScheduleTimePattern.MESSAGE))
                 .andDo(print());
     }
 

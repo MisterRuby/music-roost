@@ -14,6 +14,7 @@ import TeacherEditView from "../views/teacher/TeacherEditView.vue";
 
 import ScheduleRegisterView from "../views/schedule/ScheduleRegisterView.vue";
 import SchedulesView from "../views/schedule/SchedulesView.vue";
+import ScheduleEditView from "../views/schedule/scheduleEditView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,7 +52,7 @@ const router = createRouter({
           component: StudentsView,
         },
         {
-          path: "/students/edit/:studentId",
+          path: "/students/edit",
           name: "studentEdit",
           component: StudentEditView,
           props: true
@@ -68,14 +69,14 @@ const router = createRouter({
           component: TeachersView,
         },
         {
-          path: "/teachers/edit/:teacherId",
+          path: "/teachers/edit",
           name: "teacherEdit",
           component: TeacherEditView,
           props: true
         },
           // schedule
         {
-          path: "/schedules/register/:course/:studentName/:studentId",
+          path: "/schedules/register",
           name: "scheduleRegister",
           component: ScheduleRegisterView,
           props: true
@@ -84,6 +85,12 @@ const router = createRouter({
           path: "/schedules",
           name: "schedules",
           component: SchedulesView,
+        },
+        {
+          path: "/schedules/edit",
+          name: "scheduleEdit",
+          component: ScheduleEditView,
+          props: true
         },
       ]
     },

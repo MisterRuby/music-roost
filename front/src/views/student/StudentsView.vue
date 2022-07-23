@@ -34,9 +34,12 @@
 </template>
 
 <script setup lang="ts">
-  import axios from "axios";
-  import {onMounted, ref} from "vue";
-  import router from "@/router";
+import axios from "axios";
+import {onMounted, ref} from "vue";
+import router from "@/router";
+import {useStudentStore} from "@/stores/student";
+
+const studentStore = useStudentStore();
 
   const courseSet = {
     PIANO: "피아노",
@@ -66,8 +69,8 @@
     axios.get(`/api/students`, {params: search.value})
         .then(res => {
               res.data.forEach(student => {
-                student.course = courseSet[student.course];
-                student.grade = gradeSet[student.grade];
+                // student.course = courseSet[student.course];
+                // student.grade = gradeSet[student.grade];
                 students.value.push(student);
               })
             }
@@ -82,6 +85,7 @@
   })
 
   const moveEdit = student => {
+    studentStore.set(student);
     router.push({name: "studentEdit", params: {studentId: student.id}});
   }
 </script>
@@ -89,65 +93,3 @@
 <style scoped>
 
 </style>
-
-
-
-
-
-
-
-<!--<template>-->
-<!--  <el-select v-model="value" class="m-2" placeholder="Select" size="large">-->
-<!--    <el-option-->
-<!--        v-for="item in options"-->
-<!--        :key="item.value"-->
-<!--        :label="item.label"-->
-<!--        :value="item.value"-->
-<!--    />-->
-<!--  </el-select>-->
-<!--  <el-select v-model="value" class="m-2" placeholder="Select">-->
-<!--    <el-option-->
-<!--        v-for="item in options"-->
-<!--        :key="item.value"-->
-<!--        :label="item.label"-->
-<!--        :value="item.value"-->
-<!--    />-->
-<!--  </el-select>-->
-<!--  <el-select v-model="value" class="m-2" placeholder="Select" size="small">-->
-<!--    <el-option-->
-<!--        v-for="item in options"-->
-<!--        :key="item.value"-->
-<!--        :label="item.label"-->
-<!--        :value="item.value"-->
-<!--    />-->
-<!--  </el-select>-->
-<!--</template>-->
-
-<!--<script lang="ts" setup>-->
-<!--import { ref } from 'vue'-->
-
-<!--const value = ref('')-->
-
-<!--const options = [-->
-<!--  {-->
-<!--    value: 'Option1',-->
-<!--    label: 'Option1',-->
-<!--  },-->
-<!--  {-->
-<!--    value: 'Option2',-->
-<!--    label: 'Option2',-->
-<!--  },-->
-<!--  {-->
-<!--    value: 'Option3',-->
-<!--    label: 'Option3',-->
-<!--  },-->
-<!--  {-->
-<!--    value: 'Option4',-->
-<!--    label: 'Option4',-->
-<!--  },-->
-<!--  {-->
-<!--    value: 'Option5',-->
-<!--    label: 'Option5',-->
-<!--  },-->
-<!--]-->
-<!--</script>-->

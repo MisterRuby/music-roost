@@ -10,17 +10,17 @@
               pattern="^(010|011|016|017|019)-\d{3,4}-\d{4}$" required/>
     <el-select v-model="student.course" class="mb-2 w-50" placeholder="수강 과목을 선택해주세요.">
       <el-option
-          v-for="course in courseGroup"
-          :key="course.value"
-          :label="course.label"
-          :value="course.value"
+          v-for="key in Object.keys(courseSet)"
+          :key="key"
+          :label="courseSet[key]"
+          :value="key"
       />
     </el-select>
     <el-select v-model="student.grade" class="mb-2 w-50" placeholder="수강 등급을 선택해주세요.">
-      <el-option v-for="grade in gradeGroup"
-          :key="grade.value"
-          :label="grade.label"
-          :value="grade.value"
+      <el-option v-for="key in Object.keys(gradeSet)"
+          :key="key"
+          :label="gradeSet[key]"
+          :value="key"
       />
     </el-select>
     <el-container>
@@ -32,84 +32,34 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import axios from "axios";
 import router from "@/router";
+import {useStudentStore} from "@/stores/student";
 
-const props = defineProps({
-  studentId: {
-    type: Number,
-    required: true,
-  }
-})
+const studentStore = useStudentStore();
+const student = ref({...studentStore.getStudent});
 
-const student = ref({
-  id: 0,
-  name: "",
-  email: "",
-  phoneNumber: "",
-  course: "",
-  grade: "",
-});
+const courseSet = {
+  PIANO: "피아노",
+  VIOLIN: "바이올린",
+  VIOLA: "비올라",
+  FLUTE: "플루트",
+  CLARINET: "클라리넷",
+  VOCAL: "보컬",
+}
 
-const courseGroup = [
-  {
-    value: 'PIANO',
-    label: '피아노',
-  },
-  {
-    value: 'VIOLIN',
-    label: '바이올린',
-  },
-  {
-    value: 'VIOLA',
-    label: '비올라',
-  },
-  {
-    value: 'FLUTE',
-    label: '플루트',
-  },
-  {
-    value: 'CLARINET',
-    label: '클라리넷',
-  },
-  {
-    value: 'VOCAL',
-    label: '보컬',
-  },
-];
-
-const gradeGroup = [
-  {
-    value: 'BEGINNER',
-    label: '초급',
-  },
-  {
-    value: 'INTERMEDIATE',
-    label: '중급',
-  },
-  {
-    value: 'ADVANCED',
-    label: '고급',
-  },
-];
-
-onMounted(() => {
-  axios.get(`/api/students/${props.studentId}`)
-      .then(res => {
-            student.value = res.data;
-          }
-      ).catch(err => {
-        const result = err.response.data;
-        alert(result.message);
-      });
-})
+const gradeSet = {
+  BEGINNER: "초급",
+  INTERMEDIATE: "중급",
+  ADVANCED: "고급",
+}
 
 const edit = () => {
   const check = confirm("해당 수강생의 정보를 수정하시겠습니까?");
   if (!check) return;
 
-  axios.patch(`/api/students/${props.studentId}`, {
+  axios.patch(`/api/students/${student.value.id}`, {
     name: student.value.name,
     email : student.value.email,
     phoneNumber : student.value.phoneNumber,
@@ -120,6 +70,7 @@ const edit = () => {
   }).catch(err => {
     const result = err.response.data;
     alert(result.message);
+    console.log(result);
   });
 }
 
@@ -127,19 +78,16 @@ const deleteStudent = () => {
   const check = confirm("해당 수강생의 정보를 삭제하시겠습니까?");
   if (!check) return;
 
-  axios.delete(`/api/students/${props.studentId}`)
+  axios.delete(`/api/students/${student.value.id}`)
       .then(() => {
+        studentStore.delete();
         router.replace({name: "students"})
       })
 }
 
 const moveScheduleRegister = () => {
-  router.push({name: "scheduleRegister",
-    params:{
-      course: student.value.course,
-      studentName: student.value.name,
-      studentId: student.value.id
-  }})
+  studentStore.set(student);
+  router.push({name: "scheduleRegister"})
 }
 
 </script>

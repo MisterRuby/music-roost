@@ -10,10 +10,10 @@
               pattern="^(010|011|016|017|019)-\d{3,4}-\d{4}$" required/>
     <el-select v-model="course" class="mb-2 w-50" placeholder="담당 과목을 선택해주세요.">
       <el-option
-          v-for="course in courseGroup"
-          :key="course.value"
-          :label="course.label"
-          :value="course.value"
+          v-for="key in Object.keys(courseSet)"
+          :key="key"
+          :label="courseSet[key]"
+          :value="key"
       />
     </el-select>
     <el-button type="primary" class="w-50" @click="register()">등록</el-button>
@@ -30,32 +30,14 @@ const email = ref("");
 const phoneNumber = ref("");
 const course = ref("");
 
-const courseGroup = [
-  {
-    value: 'PIANO',
-    label: '피아노',
-  },
-  {
-    value: 'VIOLIN',
-    label: '바이올린',
-  },
-  {
-    value: 'VIOLA',
-    label: '비올라',
-  },
-  {
-    value: 'FLUTE',
-    label: '플루트',
-  },
-  {
-    value: 'CLARINET',
-    label: '클라리넷',
-  },
-  {
-    value: 'VOCAL',
-    label: '보컬',
-  },
-];
+const courseSet = {
+  PIANO: "피아노",
+  VIOLIN: "바이올린",
+  VIOLA: "비올라",
+  FLUTE: "플루트",
+  CLARINET: "클라리넷",
+  VOCAL: "보컬",
+}
 
 const register = () => {
   axios.post("/api/teachers", {

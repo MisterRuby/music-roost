@@ -10,10 +10,10 @@
               pattern="^(010|011|016|017|019)-\d{3,4}-\d{4}$" required/>
     <el-select v-model="teacher.course" class="mb-2 w-50" placeholder="수강 과목을 선택해주세요.">
       <el-option
-          v-for="course in courseGroup"
-          :key="course.value"
-          :label="course.label"
-          :value="course.value"
+          v-for="key in Object.keys(courseSet)"
+          :key="key"
+          :label="courseSet[key]"
+          :value="key"
       />
     </el-select>
     <el-container>
@@ -24,68 +24,28 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import axios from "axios";
 import router from "@/router";
+import {useTeacherStore} from "@/stores/teacher";
 
-const props = defineProps({
-  teacherId: {
-    type: Number,
-    required: true,
-  }
-})
+const teacherStore = useTeacherStore();
+const teacher = ref({...teacherStore.getTeacher});
 
-const teacher = ref({
-  id: 0,
-  name: "",
-  email: "",
-  phoneNumber: "",
-  course: "",
-});
-
-const courseGroup = [
-  {
-    value: 'PIANO',
-    label: '피아노',
-  },
-  {
-    value: 'VIOLIN',
-    label: '바이올린',
-  },
-  {
-    value: 'VIOLA',
-    label: '비올라',
-  },
-  {
-    value: 'FLUTE',
-    label: '플루트',
-  },
-  {
-    value: 'CLARINET',
-    label: '클라리넷',
-  },
-  {
-    value: 'VOCAL',
-    label: '보컬',
-  },
-];
-
-onMounted(() => {
-  axios.get(`/api/teachers/${props.teacherId}`)
-      .then(res => {
-            teacher.value = res.data;
-          }
-      ).catch(err => {
-        const result = err.response.data;
-        alert(result.message);
-      });
-})
+const courseSet = {
+  PIANO: "피아노",
+  VIOLIN: "바이올린",
+  VIOLA: "비올라",
+  FLUTE: "플루트",
+  CLARINET: "클라리넷",
+  VOCAL: "보컬",
+}
 
 const edit = () => {
   const check = confirm("해당 선생님의 정보를 수정하시겠습니까?");
   if (!check) return;
 
-  axios.patch(`/api/teachers/${props.teacherId}`, {
+  axios.patch(`/api/teachers/${teacher.value.id}`, {
     name: teacher.value.name,
     email : teacher.value.email,
     phoneNumber : teacher.value.phoneNumber,
@@ -102,8 +62,9 @@ const deleteTeacher = () => {
   const check = confirm("해당 선생님의 정보를 삭제하시겠습니까?");
   if (!check) return;
 
-  axios.delete(`/api/teachers/${props.teacherId}`)
+  axios.delete(`/api/teachers/${teacher.value.id}`)
       .then(() => {
+        teacherStore.delete();
         router.replace({name: "teachers"})
       })
 }
